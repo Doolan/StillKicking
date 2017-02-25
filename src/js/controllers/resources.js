@@ -14,23 +14,23 @@ angular.module('StillKickingApp')
 
         $scope.roles = [
             {
-                roles: 'physician',
+                title: 'physician',
+                id:'0'
+            },
+            {
+                title: 'primary',
                 id:'1'
             },
             {
-                roles: 'primary',
+                title: 'secondary',
                 id:'2'
             },
             {
-                roles: 'secondary',
-                id:'2'
-            },
-            {
-                roles: 'family',
+                title: 'family',
                 id:'3'
             },
             {
-                roles: 'friend',
+                title: 'friend',
                 id:'4'
             }
         ];
@@ -45,6 +45,12 @@ angular.module('StillKickingApp')
                 notes:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus et.'
             }
         ];
+
+        $scope.addResourceOpen = function () {
+            $('#addResourceModal').modal('show');
+            $('#addResourceForm').form('reset');
+            $('#addResourceForm .error.message').empty();
+        };
 
 
 
@@ -75,70 +81,34 @@ angular.module('StillKickingApp')
 
 
         var formConfig = function () {
-            $('#addDrugForm')
+            $('#addResourceForm')
                 .form({
                     //Handles the validation on the form
                     fields: {
                         ndc: {
-                            identifier: 'ndc',
-                            rules: [
-                                {
-                                    type: 'empty',
-                                    prompt: 'Please enter an NDC number'
-                                }
-                            ]
-                        },
-                        rxcui: {
-                            identifier: 'rxcui',
-                            rules: [
-                                {
-                                    type: 'empty',
-                                    prompt: 'Please enter an RXCUI number'
-                                }
-                            ]
-                        },
-                        name: {
                             identifier: 'name',
                             rules: [
                                 {
                                     type: 'empty',
-                                    prompt: 'Please enter your name'
+                                    prompt: 'Please enter a name'
                                 }
                             ]
                         },
-                        dosage: {
-                            identifier: 'dosage',
+                        rxcui: {
+                            identifier: 'role',
                             rules: [
                                 {
                                     type: 'empty',
-                                    prompt: 'Please enter a dosage'
+                                    prompt: 'Please select a role'
                                 }
                             ]
                         },
-                        amount: {
-                            identifier: 'amount',
+                        name: {
+                            identifier: 'phone number',
                             rules: [
                                 {
                                     type: 'empty',
-                                    prompt: 'Please enter an amount'
-                                }
-                            ]
-                        },
-                        interval: {
-                            identifier: 'interval',
-                            rules: [
-                                {
-                                    type: 'empty',
-                                    prompt: 'Please enter an interval'
-                                }
-                            ]
-                        },
-                        time: {
-                            identifier: 'time',
-                            rules: [
-                                {
-                                    type: 'empty',
-                                    prompt: 'Please enter a time'
+                                    prompt: 'Please enter a phone number'
                                 }
                             ]
                         }
