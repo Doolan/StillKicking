@@ -74,12 +74,26 @@
                 controller:'eCardCtrl',
                 controllerAs: 'cardCtrl'
             })
-            .state('login', {
+            .state('anon.login', {
                 url: '/',
                 abstract: false,
                 templateUrl: '../views/non_auth_partials/login.html',
                 controller: 'LoginCtrl',
                 controllerAs: 'login',
+                resolve: {
+                    //security: ['$q', function ($q) {
+                    //    if (hasAccess()) {
+                    //        return $q.reject({code: 'ALREADY_AUTH'});
+                    //    }
+                    //}]
+                }
+            })
+            .state('anon.register', {
+                url: '/register',
+                abstract: false,
+                templateUrl: '../views/non_auth_partials/register.html',
+                controller: 'RegisterCtrl',
+                controllerAs: 'register',
                 resolve: {
                     //security: ['$q', function ($q) {
                     //    if (hasAccess()) {
