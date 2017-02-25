@@ -7,6 +7,7 @@
     require('angular-centered');
     require('chart.js');
     require('angular-chart.js');
+    // require('semantic-ui-calendar');
     // require('ng-sortable');
     // require('./js/authentication.js');
     // require('./js/services');
