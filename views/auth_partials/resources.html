@@ -5,7 +5,7 @@
             <h1 class="ui centered header">Contacts<button class="ui right floated basic primary button">Add</button></h1>
             <div class="ui fluid card" ng-repeat="cont in contacts">
                 <div class="content">
-                    <div class="header">{{cont.name}}</div>
+                    <div class="header">{{cont.name}} <button class="ui right floated basic small secondary button">Edit</button></div>
                     <div class="meta">{{cont.type}}</div>
                     <div class="description">
                         <p><strong>{{cont.phone}}</strong></p>
