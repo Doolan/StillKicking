@@ -28,100 +28,66 @@
             </div>
         </div>
     </div>
+</div>
 
-    <!--<div class="card-history">-->
-        <!--<div class="outer-card" ng-repeat="item in drugSchedule">-->
-            <!--{{item.startTime}}-->
-            <!--<hr>-->
-            <!--<div class="ui container">-->
-                <!--<div class="ui inverted fluid card">-->
-                    <!--<div class="content">-->
-                        <!--<div class="header">-->
-                            <!--{{item.name}}-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash;<div class="meta">&ndash;&gt;-->
-                        <!--&lt;!&ndash;{{item.startTime}} - {{item.expireTime}}&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--<div class="description">-->
-                            <!--<table class="ui basic unstackable fixed table">-->
-                                <!--&lt;!&ndash;<thead>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<tr>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<th>Amount</th>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<th>Name</th>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<th>Button</th>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</thead>&ndash;&gt;-->
-                                <!--<tbody>-->
-                                <!--<tr ng-repeat="drug in item.drugs">-->
-                                    <!--<td>{{drug.amt}}</td>-->
-                                    <!--<td>{{drug.name}}</td>-->
-                                    <!--<td>-->
-                                        <!--<button class="ui basic secondary button">placeholder</button>-->
-                                    <!--</td>-->
-                                <!--</tr>-->
-                                <!--</tbody>-->
-                            <!--</table>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <div ng-hide="true" class="table-div">
-        <table class="ui center aligned unstackable celled structured table">
-            <thead>
-            <tr>
-                <th class="two wide" rowspan="1">Start Time</th>
-                <!--<th rowspan="1">End Time</th>-->
-                <th class="five wide" rowspan="1">Name</th>
-                <th class="nine wide" rowspan="4">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="active">
-                <td rowspan="3">8:00 AM <br/> 9:00 AM</td>
-                <td rowspan="3">Breakfast</td>
-                <td class="positive">2 of Drug 1<i class="icon checkmark"></i></td>
-            </tr>
-            <tr class="active">
-                <td class="positive">1 of Drug 2<i class="icon checkmark"></i></td>
-            </tr>
-            <tr class="active">
-                <td class="warning">3 of Drug 4<i class="attention icon"></i></td>
-            </tr>
-            <tr>
-                <td rowspan="1">10:30 AM</td>
-                <td rowspan="1">Late Morning</td>
-                <td>1 of Drug 2</td>
-            </tr>
-            <tr>
-                <td rowspan="2">12:00 PM <br/> 1:00 PM</td>
-                <td rowspan="2">Lunch</td>
-                <td>2 of Drug 1</td>
-            </tr>
-            <tr>
-                <td>1 of Drug 2</td>
-            </tr>
-            <tr>
-                <td rowspan="3">5:00 PM <br/> 6:00 PM</td>
-                <td rowspan="3">Dinner</td>
-                <td>2 of Drug 1</td>
-            </tr>
-            <tr>
-                <td>1 of Drug 2</td>
-            </tr>
-            <tr>
-                <td>1 of Drug 4</td>
-            </tr>
-            <tr>
-                <td rowspan="2"></td>
-                <td rowspan="2">Bedtime</td>
-                <td>2 of Drug 5</td>
-            </tr>
-            <tr>
-                <td>1 of Drug 6</td>
-            </tr>
-            </tbody>
-        </table>
+<div class="ui modal" id="addDrugModal">
+    <div class="header">Add a Drug</div>
+    <div class="content">
+        <form class="ui form">
+            <h4 class="ui dividing header">Pill Information:</h4>
+            <div class="two fields">
+                <div class="field">
+                    <label>NDC #</label>
+                    <input type="text" name="ndc" placeholder="">
+                </div>
+                <div class="field">
+                    <label>RXCUI # <em>(auto filled)</em></label>
+                    <input disabled type="text" name="rxcui" placeholder="">
+                </div>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                    <label>Name</label>
+                    <input type="text" name="name" placeholder="">
+                </div>
+                <div class="field">
+                    <label>Strength</label>
+                    <input type="text" name="strength" placeholder="">
+                </div>
+            </div>
+            <h4 class="ui dividing header">Usage Information:</h4>
+            <div class="three fields">
+                <div class="field">
+                    <label>Take:</label>
+                    <input type="number" name="amount" placeholder="Amount">
+                </div>
+                <div class="field">
+                    <label>Every:</label>
+                    <div class="ui right labeled input">
+                            <input type="text" placeholder="">
+                            <div class="ui label">
+                                hours
+                            </div>
+                        </div>
+                </div>
+                <div class="field">
+                    <label>Time:</label>
+                    <input type="number" name="time" placeholder="Starting Time">
+                </div>
+            </div>
+            <div class="vertical-spacer"></div>
+            <div class="ui toggle checkbox right floated">
+                <input type="checkbox" name="food">
+                <label class="">With Food</label>
+            </div>
+            <div class="vertical-spacer"></div>
+            <div class="ui field">
+                <label>Notes:</label>
+                <textarea rows="3" name="notes"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="actions">
+        <button class="ui cancel basic primary button">Cancel</button>
     </div>
 </div>
