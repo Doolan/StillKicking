@@ -1,5 +1,20 @@
 <div class="ui container">
+    <!--<div class="ui buttons right floated">-->
+
+    <div class="ui right floated primary basic icon button" ng-click="addDrugOpen()">
+        <i class="icons">
+            <i class="treatment icon"></i>
+            <i class="corner add icon"></i>
+        </i>
+        Add Drug
+    </div>
+    <div class="ui right floated secondary basic icon button">
+        <i class="add to calendar icon"></i>
+        Schedule Drug
+    </div>
+    <!--</div>-->
     <h1 class="ui header">Game Plan</h1>
+
     <div class="ui  right aligned relaxed internally celled grid">
         <div class="row" ng-repeat="item in drugSchedule" ng-class="{past:item.expireTime<currentTime}">
             <div class="four wide column">
@@ -15,7 +30,8 @@
                     <!--</tr>-->
                     <!--</thead>-->
                     <tbody>
-                    <tr ng-repeat="drug in item.drugs" ng-class="{positive: (drug.taken && item.expireTime>=currentTime)}">
+                    <tr ng-repeat="drug in item.drugs"
+                        ng-class="{positive: (drug.taken && item.expireTime>=currentTime)}">
                         <!--<td>{{drug.amt}}</td>-->
                         <td><h4 class="ui centered header">{{drug.amt}} of {{drug.name}}</h4></td>
                         <td ng-if="drug.taken"><i class="icon checkmark"></i></td>
@@ -33,12 +49,12 @@
 <div class="ui modal" id="addDrugModal">
     <div class="header">Add a Drug</div>
     <div class="content">
-        <form class="ui form">
+        <form class="ui form" id="addDrugForm">
             <h4 class="ui dividing header">Pill Information:</h4>
             <div class="two fields">
                 <div class="field">
                     <label>NDC #</label>
-                    <input type="text" name="ndc" placeholder="">
+                    <input type="text" name="ndc" placeholder="" required>
                 </div>
                 <div class="field">
                     <label>RXCUI # <em>(auto filled)</em></label>
@@ -47,32 +63,37 @@
             </div>
             <div class="two fields">
                 <div class="field">
-                    <label>Name</label>
-                    <input type="text" name="name" placeholder="">
+                    <label>Drug Name:</label>
+                    <input type="text" name="name" placeholder="" required>
                 </div>
                 <div class="field">
-                    <label>Strength</label>
-                    <input type="text" name="strength" placeholder="">
+                    <label>Dosage</label>
+                    <div class="ui right labeled input">
+                        <input type="number" min="0" name="dosage" placeholder="" required>
+                        <div class="ui label">
+                            mg
+                        </div>
+                    </div>
                 </div>
             </div>
             <h4 class="ui dividing header">Usage Information:</h4>
             <div class="three fields">
                 <div class="field">
                     <label>Take:</label>
-                    <input type="number" name="amount" placeholder="Amount">
+                    <input type="number" min="0" name="amount" placeholder="Amount" required>
                 </div>
                 <div class="field">
                     <label>Every:</label>
                     <div class="ui right labeled input">
-                            <input type="text" placeholder="">
-                            <div class="ui label">
-                                hours
-                            </div>
+                        <input type="number" min="0" name="interval" placeholder="" required>
+                        <div class="ui label">
+                            hours
                         </div>
+                    </div>
                 </div>
                 <div class="field">
                     <label>Time:</label>
-                    <input type="number" name="time" placeholder="Starting Time">
+                    <input type="number" min="0" name="time" placeholder="Starting Time">
                 </div>
             </div>
             <div class="vertical-spacer"></div>
@@ -85,9 +106,11 @@
                 <label>Notes:</label>
                 <textarea rows="3" name="notes"></textarea>
             </div>
+            <div class="ui error message"></div>
         </form>
     </div>
     <div class="actions">
-        <button class="ui cancel basic primary button">Cancel</button>
+        <button class="ui cancel secondary basic button">Cancel</button>
+        <div class="ui approve  primary basic button">Save</div>
     </div>
 </div>
