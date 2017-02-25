@@ -4,6 +4,8 @@
 ```bash
 git clone clone git@github.com:Doolan/DripDrankDrunkFE.git
 cd ----
+browserify app.js >bundle.js #build the bundle package
+watchify app.js -o bundle.js #watches for updates and refreshes the bundle script 
 npm install #installs all of the packages
 npm start #launches the site on http://localhost:3000/
 ```

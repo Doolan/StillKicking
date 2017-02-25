@@ -10,6 +10,8 @@
 /semantic/src/*
 /semantic/tasks/*
 
+bundle.js
+
 # Created by https://www.gitignore.io/api/eclipse,webstorm,jetbrains,visualstudiocode,node
 
 ### Eclipse ###

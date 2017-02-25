@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "browserify app.js >bundle.js"
   },
   "repository": {
     "type": "git",
@@ -19,8 +20,13 @@
     "angular-chart.js": "^1.1.1",
     "angular-sanitize": "^1.4.0",
     "angular-ui-router": "^0.4.2",
+    "browserify": "^14.1.0",
     "express": "^4.13.3",
+    "grunt": "^1.0.1",
     "jquery": "^2.2.0",
     "nodemon": "^1.8.1"
+  },
+  "devDependencies": {
+    "watchify": "^3.9.0"
   }
 }
