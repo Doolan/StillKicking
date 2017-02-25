@@ -113,22 +113,6 @@ angular.module('StillKickingApp')
         ];
 
 
-        /* -----  Scope Functions ------ */
-
-        $scope.addDrugOpen = function () {
-            console.log('hit');
-            $('#addDrugModal').modal('show');
-            $('#addDrugForm').form('reset');
-            $('#addDrugForm .error.message').empty();
-        };
-
-        $scope.scheduleDrugOpen = function () {
-            console.log('schedule drug');
-            $('#scheduleDrugModal').modal('show');
-            $('#scheduleDrugForm').form('reset');
-            $('#scheduleDrugForm .error.message').empty();
-        };
-
         $scope.drugList = [
             {
                 name:'OxyContin'
@@ -143,6 +127,36 @@ angular.module('StillKickingApp')
                 name:'Vicodin'
             }
         ];
+
+        $scope.drugWeekList = {};
+
+
+        /* -----  Scope Functions ------ */
+
+        $scope.addDrugOpen = function () {
+            console.log('hit');
+            $('#addDrugModal').modal('show');
+            $('#addDrugForm').form('reset');
+            $('#addDrugForm .error.message').empty();
+        };
+
+        $scope.scheduleDrugOpen = function () {
+            console.log('schedule drug');
+            $('#scheduleDrugModal').modal('show');
+            $('#scheduleDrugForm').form('reset');
+            $('#scheduleDrugForm .error.message').empty();
+
+            $scope.drugWeekList = {
+                sunday:false,
+                monday: false,
+                tuesday:false,
+                wednesday:false,
+                thursday:false,
+                friday:false,
+                saturday:false
+            }
+        };
+
 
         /* -----  Set Up & Config Function ------ */
 
@@ -264,8 +278,7 @@ angular.module('StillKickingApp')
                     },
                     keyboardShortcuts: false //disables enter key trigger
                 });
-        }
-        var formConfig = function () {
+
             $('#scheduleDrugForm')
                 .form({
                     //Handles the validation on the form
@@ -305,8 +318,7 @@ angular.module('StillKickingApp')
                                     prompt: 'Please enter a time'
                                 }
                             ]
-                        },
-
+                        }
                     },
                     onSuccess: function (event, fields) {
                         //what happens when the form is filed in

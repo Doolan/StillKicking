@@ -120,29 +120,39 @@
     <div class="content">
         <form class="ui form" id="scheduleDrugForm">
             <h4 class="ui dividing header">Choose a Drug:</h4>
-            <div class="ui fluid selection dropdown" id="sheduleDrugForm">
-                <input type="hidden" name="Choose Drug" required>
-                <i class="dropdown icon"></i>
-                <div class="default text"></div>
-                <div class="menu">
-                    <div class="item" ng-repeat="drug in drugList" data-value="drug.name">{{drug.name}}</div>
-                </div>
-            </div>
+            <select class="ui fluid dropdown">
+                <option class="item" ng-repeat="drug in drugList" value="drug.name">{{drug.name}}</option>
+            </select>
+            <!--<div class="ui fluid selection dropdown">-->
+                <!--<input type="hidden" name="Choose Drug" required>-->
+                <!--<i class="dropdown icon"></i>-->
+                <!--<div class="default text">Choose a Drug</div>-->
+                <!--<div class="menu">-->
+                    <!--<div class="item" ng-repeat="drug in drugList" data-value="drug.name">{{drug.name}}</div>-->
+                <!--</div>-->
+            <!--</div>-->
             <h4 class="ui dividing header">Choose Recurrence:</h4>
             <div class="seven secondary ui buttons">
-                <button class="ui button">Sun</button>
-                <button class="ui button">Mon</button>
-                <button class="ui button">Tue</button>
-                <button class="ui button">Wed</button>
-                <button class="ui button">Thu</button>
-                <button class="ui button">Fri</button>
-                <button class="ui button">Sat</button>
+                <div class="ui button" ng-class="{basic: !drugWeekList.sunday}"
+                     ng-click="drugWeekList.sunday = !drugWeekList.sunday">Sun</div>
+                <div class="ui button" ng-class="{basic: !drugWeekList.monday}"
+                     ng-click="drugWeekList.monday = !drugWeekList.monday">Mon</div>
+                <div class="ui button" ng-class="{basic: !drugWeekList.tuesday}"
+                     ng-click="drugWeekList.tuesday = !drugWeekList.tuesday">Tue</div>
+                <div class="ui button" ng-class="{basic: !drugWeekList.wednesday}"
+                     ng-click="drugWeekList.wednesday = !drugWeekList.wednesday">Wed</div>
+                <div class="ui button" ng-class="{basic: !drugWeekList.thursday}"
+                     ng-click="drugWeekList.thursday = !drugWeekList.thursday">Thu</div>
+                <div class="ui button" ng-class="{basic: !drugWeekList.friday}"
+                     ng-click="drugWeekList.friday = !drugWeekList.friday">Fri</div>
+                <div class="ui button" ng-class="{basic: !drugWeekList.saturday}"
+                     ng-click="drugWeekList.saturday = !drugWeekList.saturday">Sat</div>
             </div>
             <h4 class="ui dividing header">Usage Information:</h4>
             <div class="two fields">
                 <div class="field">
                     <label>Take:</label>
-                    <input type="number" min="0" name="amount" placeholder="Amount" required>
+                    <input type="number" min="0" name="amount" placeholder="Amount" required autofocus>
                 </div>
                 <div class="field">
                     <label>Time:</label>
@@ -153,13 +163,14 @@
                 <!--Add Intervals-->
                 <!--<i class="plus icon"></i>-->
             <!--</button>-->
-            <div class="ui animated button right floated" tabindex="0">
-                <div class="hidden content">Add</div>
-                <div class="visible content">
-                    <i class="plus icon"></i>
-                </div>
-            </div>
-            <div class="vertical-spacer"></div>
+            <!--<div class="ui animated button right floated" tabindex="0">-->
+                <!--<div class="hidden content">Add</div>-->
+                <!--<div class="visible content">-->
+                    <!--<i class="plus icon"></i>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="vertical-spacer"></div>-->
+            <div class="ui error message"></div>
         </form>
     </div>
     <div class="actions">
