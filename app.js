@@ -1,6 +1,19 @@
+'use strict';
 (function () {
-    var app = angular.module('StillKickingApp', ['DataManager', 'ui.router', 'chart.js', 'angular-centered']);
+        //Node Modules
+    var angular = require('angular');
+    require('angular-ui-router');
+    require('angular-sanitize');
+    require('angular-centered');
+    require('chart.js');
+    require('angular-chart.js');
+    // require('ng-sortable');
+    // require('./js/authentication.js');
+    // require('./js/services');
 
+    var app = angular.module('StillKickingApp', ['DataManager', 'ui.router', 'chart.js', 'angular-centered']);
+    // require('./js/filter.js');
+    require('./src/js/controllers/');
 
     app.run(function ($state, $rootScope) {
         $rootScope.$on('$stateChangeError', function (evt, toState, toParams, fromState, fromParams, error) {
