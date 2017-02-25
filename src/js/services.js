@@ -32,15 +32,7 @@ angular.module('DataManager', [])
             callback(token);
         };
 
-        self.register = function(fields, callback){
-            console.log(fields);
-            var pkt = {
-                Email:'',
-                Name:'',
-                Phone:'',
-                Password:''
-            };
-
+        self.register = function(pkt, callback){
             $http({
                 method: 'POST',
                 url: host + "patient/register",

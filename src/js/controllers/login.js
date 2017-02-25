@@ -39,11 +39,17 @@ angular.module('StillKickingApp')
                         if (event) {
                             event.preventDefault();
                         }
+                        AuthService.login(fields.username, fields.password, function(data, error){
+                            if(!error && data){
+                                $state.go('user.day');
+                            }else{
+                                //display error
+                            }
+                        });
                         return false;
                     },
                     onFailure: function (formErrors, fields) {
                         return;
-
                     }
 
                 });
@@ -65,17 +71,6 @@ angular.module('StillKickingApp')
             $('.ui.button').removeClass('disabled');
         };
 
-        // $scope.registerFunc = function () {
-        //     DataService.newUser(fields.regusername, fields.regpassword);
-        // };
-
-        // $scope.register = function () {
-        //     if(!$('#login').form('is valid'))
-        //         return;
-        //     stopButtons();
-        //     var fields = $('#login').form('get values');
-        //     DataService.newUser(fields.username, fields.password);
-        // };
 
         $scope.authenticate = function (fields) {
             if(!$('#login').form('is valid'))

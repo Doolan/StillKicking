@@ -1,5 +1,6 @@
+'use strict';
 angular.module('StillKickingApp')
-    .controller('RegisterCtrl', ['$scope', function ($scope) {
+    .controller('RegisterCtrl', ['$scope', 'AuthService', '$state', function ($scope, AuthService, $state) {
 
         $scope.registerForm = function(){
             $('#registerForm').form('validate form');
@@ -57,10 +58,28 @@ angular.module('StillKickingApp')
                             }
                         },
                         onSuccess: function (event, fields) {
-                            //what happens when the form is filed in
-                            //console.log(fields);
-                            $('#registerForm').form('reset');
-                            $('#registerForm .error.message').empty();
+                            //$('#registerForm').form('reset');
+                            //$('#registerForm .error.message').empty();
+                            if (event) {
+                                event.preventDefault();
+                            }
+                            var pkt = {
+                                Email: fields.email,
+                                Name:fields.name,
+                                Phone:'000001',
+                                Password:fields.password,
+                                PatientDateOfBirth:fields.patientDateOfBirth,
+                                PatientSex: fields.patientSex
+                            };
+                            AuthService.register(pkt, function(data, error){
+                                if(!error && data){
+                                    $state.go('user.day');
+                                }else{
+                                    //display error
+                                }
+                            });
+                            return false;
+
                         },
                         onFailure: function (formErrors, fields) {
                             return null; // What happens when the form is not filed out
