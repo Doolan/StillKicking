@@ -11,7 +11,7 @@
     "type": "git",
     "url": ""
   },
-  "author": "Doolan, Brubaker",
+  "author": "Doolan, Thrift",
   "homepage": "",
   "dependencies": {
     "angular": "^1.4.8",
