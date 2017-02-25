@@ -4,6 +4,11 @@
 /.sass-cache
 /bower_components
 
+/semantic/src
+/semantic/tasks
+
+/semantic/src/*
+/semantic/tasks/*
 
 # Created by https://www.gitignore.io/api/eclipse,webstorm,jetbrains,visualstudiocode,node
 
