@@ -5,6 +5,7 @@ angular.module('StillKickingApp')
             $('#registerForm').form('validate form');
         };
 
+
         var formConfig = function () {
                 $('#registerForm')
                     .form({
@@ -32,11 +33,7 @@ angular.module('StillKickingApp')
                                 rules: [
                                     {
                                         type: 'empty',
-                                        prompt: 'Please enter a password'
-                                    },
-                                    {
-                                        type: 'minLength[6]',
-                                        prompt: 'Your password must be at least 6 characters'
+                                        prompt: 'Please enter a password at least 6 characters in length'
                                     }
                                 ]
                             },
@@ -81,5 +78,8 @@ angular.module('StillKickingApp')
         $scope.$on('$viewContentLoaded', function () {
             registerPageSetup();
             $('.dropdown').dropdown();
+            $('#example2').calendar();
         });
+
+
     }]);
