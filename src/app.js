@@ -46,24 +46,38 @@
                 controller: 'UserCtrl',
                 controllerAs: 'user'
             })
+            .state('anon', {
+                url: '',
+                abstract: true,
+                resolve: {
+                    //security: ['$q', function ($q) {
+                    //  if (!hasAccess()) {
+                    //    return $q.reject({ code: 'NOT_AUTH' });
+                    //  }
+                    //}]
+                },
+                templateUrl: 'views/anon.html',
+                controller: 'AnonCtrl',
+                controllerAs: 'anonCtrl'
+            })
             .state('user.day', {
                 url:'/day',
                 abstract:false,
-                templateUrl: '../views/day.html',
+                templateUrl: '../views/auth_partials/day.html',
                 controller:'DayCtrl',
                 controllerAs: 'dayCtrl'
             })
             .state('user.card', {
                 url:'/card',
                 abstract:false,
-                templateUrl: '../views/emergency.card.html',
+                templateUrl: '../views/auth_partials/emergency.card.html',
                 controller:'eCardCtrl',
                 controllerAs: 'cardCtrl'
             })
             .state('login', {
                 url: '/',
                 abstract: false,
-                templateUrl: '../views/login.html',
+                templateUrl: '../views/non_auth_partials/login.html',
                 controller: 'LoginCtrl',
                 controllerAs: 'login',
                 resolve: {

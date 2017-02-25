@@ -54,7 +54,10 @@
             <div class="two fields">
                 <div class="field">
                     <label>NDC #</label>
-                    <input type="text" name="ndc" placeholder="" required>
+                    <div class="ui action input">
+                        <input type="text" name="ndc" placeholder="" required>
+                        <div class="ui button" ng-click="lookupDrug()">Search</div>
+                    </div>
                 </div>
                 <div class="field">
                     <label>RXCUI # <em>(auto filled)</em></label>

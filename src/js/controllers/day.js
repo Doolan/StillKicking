@@ -8,125 +8,16 @@
  * Controller of the StillKickingApp
  */
 angular.module('StillKickingApp')
-    .controller('DayCtrl', ['$scope', 'AuthService', '$state', function ($scope) {
+    .controller('DayCtrl', ['$scope', 'AuthService', 'DrugService', function ($scope, AuthService, DrugService) {
 
         /* -----  Scope Variables ------ */
 
         $scope.currentTime = "1240";
 
-        $scope.drugSchedule = [
-            {
-                name: 'Breakfast',
-                startTime: '0800',
-                expireTime: '0900',
-                drugs: [
-                    {
-                        name: 'Drug 1',
-                        amt: 1,
-                        taken: true,
-                        optional: false
-                    },
-                    {
-                        name: 'Drug 2',
-                        amt: 2,
-                        taken: true,
-                        optional: false
-                    },
-                    {
-                        name: 'Drug 3',
-                        amt: 1,
-                        taken: true,
-                        optional: false
-                    },
-                    {
-                        name: 'Drug 4',
-                        amt: 1,
-                        taken: false,
-                        optional: false
-                    }
-                ]
-            },
-            {
-                name: '',
-                startTime: '1030',
-                expireTime: '1130',
-                drugs: [
-                    {
-                        name: 'drug 4',
-                        amt: 1,
-                        taken: true,
-                        optional: false
-                    }
-                ]
-            },
-            {
-                name: 'Lunch',
-                startTime: '1200',
-                expireTime: '1300',
-                drugs: [
-                    {
-                        name: 'Drug 1',
-                        amt: 1,
-                        taken: true,
-                        optional: false
-                    },
-                    {
-                        name: 'Drug 3',
-                        amt: 1,
-                        taken: false,
-                        optional: false
-                    }
-                ]
-            },
-            {
-                name: 'Dinner',
-                startTime: '1700',
-                expireTime: '1800',
-                drugs: [
-                    {
-                        name: 'Drug 3',
-                        amt: 1,
-                        taken: false,
-                        optional: false
-                    },
-                    {
-                        name: 'Drug 6',
-                        amt: 1,
-                        taken: false,
-                        optional: false
-                    }
-                ]
-            },
-            {
-                name: '',
-                startTime: '2000',
-                expireTime: '2330',
-                drugs: [
-                    {
-                        name: 'drug 4',
-                        amt: 1,
-                        taken: false,
-                        optional: false
-                    }
-                ]
-            }
-        ];
+        $scope.drugSchedule = [];
 
 
-        $scope.drugList = [
-            {
-                name:'OxyContin'
-            },
-            {
-                name:'Percocet'
-            },
-            {
-                name:'Hydrocodone'
-            },
-            {
-                name:'Vicodin'
-            }
-        ];
+        $scope.drugList = [];
 
         $scope.drugWeekList = {};
 
@@ -134,14 +25,12 @@ angular.module('StillKickingApp')
         /* -----  Scope Functions ------ */
 
         $scope.addDrugOpen = function () {
-            console.log('hit');
             $('#addDrugModal').modal('show');
             $('#addDrugForm').form('reset');
             $('#addDrugForm .error.message').empty();
         };
 
         $scope.scheduleDrugOpen = function () {
-            console.log('schedule drug');
             $('#scheduleDrugModal').modal('show');
             $('#scheduleDrugForm').form('reset');
             $('#scheduleDrugForm .error.message').empty();
@@ -157,6 +46,17 @@ angular.module('StillKickingApp')
             }
         };
 
+        $scope.lookupDrug = function(){
+            var ndc = $('#addDrugForm').form('get value', ndc);
+            if(ndc) {
+                console.log(ndc);
+                DrugService.searchForDrug(ndc, function (data, err) {
+                    console.log(data, "first step");
+                }, function (data, err) {
+                    console.log(data);
+                });
+            }
+        };
 
         /* -----  Set Up & Config Function ------ */
 
@@ -269,7 +169,13 @@ angular.module('StillKickingApp')
                     },
                     onSuccess: function (event, fields) {
                         //what happens when the form is filed in
-                        console.log(fields);
+                        //console.log(fields);
+                        DrugService.addDrug(fields, $scope.drugWeekList, function(data, err){
+                            if(err){
+                                //something broke
+                            }
+
+                        });
                         $('#addDrugForm').form('reset');
                         $('#addDrugForm .error.message').empty();
                     },
@@ -322,7 +228,12 @@ angular.module('StillKickingApp')
                     },
                     onSuccess: function (event, fields) {
                         //what happens when the form is filed in
-                        console.log(fields);
+                        //console.log(fields);
+                        DrugService.scheduleDrug(fields, function(data, err){
+                            if(err){
+                                //something broke
+                            }
+                        });
                         $('#scheduleDrugForm').form('reset');
                         $('#scheduleDrugForm .error.message').empty();
                     },
@@ -338,8 +249,22 @@ angular.module('StillKickingApp')
             formConfig();
         };
 
+        var loadDrugList = function(reload){
+            DrugService.getDrugList(reload, function(list){
+                $scope.drugList = list;
+            });
+        };
+
+        var loadDrugSchedule = function(reload){
+            DrugService.getDrugSchedule(reload, function(list){
+                $scope.drugSchedule = list;
+            });
+        };
+
         //on scope load
         $scope.$on('$viewContentLoaded', function () {
+            loadDrugList(false);
+            loadDrugSchedule(true);
             dayPageSetup();
             $('.dropdown').dropdown();
         });
