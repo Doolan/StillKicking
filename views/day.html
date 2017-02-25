@@ -1,0 +1,127 @@
+<div class="ui container">
+    <h1 class="ui header">Game Plan</h1>
+    <div class="ui  right aligned relaxed internally celled grid">
+        <div class="row" ng-repeat="item in drugSchedule" ng-class="{past:item.expireTime<currentTime}">
+            <div class="four wide column">
+                <h3 class="ui header">{{item.startTime}}</h3>
+            </div>
+            <div class="twelve wide column">
+                <table class="ui very basic unstackable center aligned fixed table">
+                    <!--<thead>-->
+                    <!--<tr>-->
+                    <!--<th>Amount</th>-->
+                    <!--<th>Name</th>-->
+                    <!--<th>Button</th>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <tbody>
+                    <tr ng-repeat="drug in item.drugs" ng-class="{positive: (drug.taken && item.expireTime>=currentTime)}">
+                        <!--<td>{{drug.amt}}</td>-->
+                        <td><h4 class="ui centered header">{{drug.amt}} of {{drug.name}}</h4></td>
+                        <td ng-if="drug.taken"><i class="icon checkmark"></i></td>
+                        <td ng-if="!drug.taken">
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="card-history">-->
+        <!--<div class="outer-card" ng-repeat="item in drugSchedule">-->
+            <!--{{item.startTime}}-->
+            <!--<hr>-->
+            <!--<div class="ui container">-->
+                <!--<div class="ui inverted fluid card">-->
+                    <!--<div class="content">-->
+                        <!--<div class="header">-->
+                            <!--{{item.name}}-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash;<div class="meta">&ndash;&gt;-->
+                        <!--&lt;!&ndash;{{item.startTime}} - {{item.expireTime}}&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--<div class="description">-->
+                            <!--<table class="ui basic unstackable fixed table">-->
+                                <!--&lt;!&ndash;<thead>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<th>Amount</th>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<th>Name</th>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<th>Button</th>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</thead>&ndash;&gt;-->
+                                <!--<tbody>-->
+                                <!--<tr ng-repeat="drug in item.drugs">-->
+                                    <!--<td>{{drug.amt}}</td>-->
+                                    <!--<td>{{drug.name}}</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="ui basic secondary button">placeholder</button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--</tbody>-->
+                            <!--</table>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div ng-hide="true" class="table-div">
+        <table class="ui center aligned unstackable celled structured table">
+            <thead>
+            <tr>
+                <th class="two wide" rowspan="1">Start Time</th>
+                <!--<th rowspan="1">End Time</th>-->
+                <th class="five wide" rowspan="1">Name</th>
+                <th class="nine wide" rowspan="4">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="active">
+                <td rowspan="3">8:00 AM <br/> 9:00 AM</td>
+                <td rowspan="3">Breakfast</td>
+                <td class="positive">2 of Drug 1<i class="icon checkmark"></i></td>
+            </tr>
+            <tr class="active">
+                <td class="positive">1 of Drug 2<i class="icon checkmark"></i></td>
+            </tr>
+            <tr class="active">
+                <td class="warning">3 of Drug 4<i class="attention icon"></i></td>
+            </tr>
+            <tr>
+                <td rowspan="1">10:30 AM</td>
+                <td rowspan="1">Late Morning</td>
+                <td>1 of Drug 2</td>
+            </tr>
+            <tr>
+                <td rowspan="2">12:00 PM <br/> 1:00 PM</td>
+                <td rowspan="2">Lunch</td>
+                <td>2 of Drug 1</td>
+            </tr>
+            <tr>
+                <td>1 of Drug 2</td>
+            </tr>
+            <tr>
+                <td rowspan="3">5:00 PM <br/> 6:00 PM</td>
+                <td rowspan="3">Dinner</td>
+                <td>2 of Drug 1</td>
+            </tr>
+            <tr>
+                <td>1 of Drug 2</td>
+            </tr>
+            <tr>
+                <td>1 of Drug 4</td>
+            </tr>
+            <tr>
+                <td rowspan="2"></td>
+                <td rowspan="2">Bedtime</td>
+                <td>2 of Drug 5</td>
+            </tr>
+            <tr>
+                <td>1 of Drug 6</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

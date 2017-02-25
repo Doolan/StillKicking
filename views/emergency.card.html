@@ -1,0 +1,38 @@
+<div class="ui container">
+    <div class="ui raised segment">
+        <h1 class="left floated ui header">{{userinfo.name}}</h1>
+        <h2 class="right floated ui header">{{userinfo.age}}</h2>
+        <div class="vertical-spacer"></div>
+        <h3 class="ui header">Medical Conditions</h3>
+        <div class="ui segment">
+            <div class="ui basic primary label" ng-repeat="cond in userinfo.medicalConditions">
+                {{cond}}
+            </div>
+        </div>
+        <div class="vertical-spacer"></div>
+        <h3 class="ui header">Medication History:</h3>
+        <div class="ui segment">
+            <table class="ui very basic selectable unstackable table">
+                <tbody>
+                    <tr ng-repeat="drug in drugHistory" ng-click="selectDrug(drug)">
+                        <td>{{drug.name}}</td>
+                        <td>{{drug.amt}}</td>
+                        <td>{{drug.time}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="ui modal" id="drugModal">
+    <div class="header">{{activeDrug.name}}</div>
+    <div class="content">
+        <p>Taken at: {{activeDrug.time}}</p>
+        <p>Amount take: {{activeDrug.amt}}</p>
+        <p>Drug Instructions: {{activeDrug.instructions}}</p>
+    </div>
+    <div class="actions">
+        <button class="ui cancel basic primary button">Cancel</button>
+    </div>
+</div>
