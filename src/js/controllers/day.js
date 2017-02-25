@@ -122,8 +122,11 @@ angular.module('StillKickingApp')
             $('#addDrugForm .error.message').empty();
         };
 
-        $scope.scheduleDrug = function () {
+        $scope.scheduleDrugOpen = function () {
             console.log('schedule drug');
+            $('#scheduleDrugModal').modal('show');
+            $('#scheduleDrugForm').form('reset');
+            $('#scheduleDrugForm .error.message').empty();
         };
 
         $scope.drugList = [
@@ -134,7 +137,7 @@ angular.module('StillKickingApp')
                 name:'Percocet'
             },
             {
-                name:'hydrocodone'
+                name:'Hydrocodone'
             },
             {
                 name:'Vicodin'
@@ -161,6 +164,23 @@ angular.module('StillKickingApp')
                     return isValid;
                 }
             });
+            $('#scheduleDrugModal').modal({
+                closable: false,//forces the user to close the modal through one of the buttons
+                //On Deny & On Approve handle the closing of the modal.
+                //if they return true, modal closes
+                onDeny: function () {
+                    //Reset the form on the cancel button
+                    $('#scheduleDrugForm').form('reset');
+                    $('#scheduleDrugForm .error.message').empty(); //clears Error messages
+                    return true;
+                },
+                onApprove: function () {
+                    //checks the validation of the form
+                    var isValid = $('#scheduleDrugForm').form('is valid');
+                    $('#scheduleDrugForm').form('validate form');//call the form's on success or on failure
+                    return isValid;
+                }
+            });
         };
 
 
@@ -174,7 +194,7 @@ angular.module('StillKickingApp')
                             rules: [
                                 {
                                     type: 'empty',
-                                    prompt: 'Please enter your name'
+                                    prompt: 'Please enter an NDC number'
                                 }
                             ]
                         },
@@ -183,7 +203,7 @@ angular.module('StillKickingApp')
                             rules: [
                                 {
                                     type: 'empty',
-                                    prompt: 'Please enter your name'
+                                    prompt: 'Please enter an RXCUI number'
                                 }
                             ]
                         },
@@ -201,7 +221,7 @@ angular.module('StillKickingApp')
                             rules: [
                                 {
                                     type: 'empty',
-                                    prompt: 'Please enter your name'
+                                    prompt: 'Please enter a dosage'
                                 }
                             ]
                         },
@@ -210,7 +230,7 @@ angular.module('StillKickingApp')
                             rules: [
                                 {
                                     type: 'empty',
-                                    prompt: 'Please enter your name'
+                                    prompt: 'Please enter an amount'
                                 }
                             ]
                         },
@@ -219,7 +239,7 @@ angular.module('StillKickingApp')
                             rules: [
                                 {
                                     type: 'empty',
-                                    prompt: 'Please enter your name'
+                                    prompt: 'Please enter an interval'
                                 }
                             ]
                         },
@@ -228,7 +248,7 @@ angular.module('StillKickingApp')
                             rules: [
                                 {
                                     type: 'empty',
-                                    prompt: 'Please enter your name'
+                                    prompt: 'Please enter a time'
                                 }
                             ]
                         }
@@ -238,6 +258,61 @@ angular.module('StillKickingApp')
                         console.log(fields);
                         $('#addDrugForm').form('reset');
                         $('#addDrugForm .error.message').empty();
+                    },
+                    onFailure: function (formErrors, fields) {
+                        return null; // What happens when the form is not filed out
+                    },
+                    keyboardShortcuts: false //disables enter key trigger
+                });
+        }
+        var formConfig = function () {
+            $('#scheduleDrugForm')
+                .form({
+                    //Handles the validation on the form
+                    fields: {
+                        chooseDrug: {
+                            identifier: 'chooseDrug',
+                            rules: [
+                                {
+                                    type: 'empty',
+                                    prompt: 'Please choose a drug'
+                                }
+                            ]
+                        },
+                        chooseRecurrence: {
+                            identifier: 'chooseRecurrence',
+                            rules: [
+                                {
+                                    type: 'empty',
+                                    prompt: 'Please choose a recurrence'
+                                }
+                            ]
+                        },
+                        amount: {
+                            identifier: 'amount',
+                            rules: [
+                                {
+                                    type: 'empty',
+                                    prompt: 'Please enter an amount'
+                                }
+                            ]
+                        },
+                        time: {
+                            identifier: 'time',
+                            rules: [
+                                {
+                                    type: 'empty',
+                                    prompt: 'Please enter a time'
+                                }
+                            ]
+                        },
+
+                    },
+                    onSuccess: function (event, fields) {
+                        //what happens when the form is filed in
+                        console.log(fields);
+                        $('#scheduleDrugForm').form('reset');
+                        $('#scheduleDrugForm .error.message').empty();
                     },
                     onFailure: function (formErrors, fields) {
                         return null; // What happens when the form is not filed out
@@ -254,5 +329,6 @@ angular.module('StillKickingApp')
         //on scope load
         $scope.$on('$viewContentLoaded', function () {
             dayPageSetup();
+            $('.dropdown').dropdown();
         });
     }]);
