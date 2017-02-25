@@ -3,7 +3,7 @@
     <div class="ui  right aligned relaxed internally celled grid">
         <div class="row" ng-repeat="item in drugSchedule" ng-class="{past:item.expireTime<currentTime}">
             <div class="four wide column">
-                <h3 class="ui header">{{item.startTime}}</h3>
+                <h3 class="ui header">{{item.startTime | militaryTime}}</h3>
             </div>
             <div class="twelve wide column">
                 <table class="ui very basic unstackable center aligned fixed table">

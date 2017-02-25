@@ -10,6 +10,11 @@
 angular.module('StillKickingApp')
     .controller('DayCtrl', ['$scope', 'AuthService', '$state', function ($scope) {
 
+        $scope.openSettings = function () {
+            console.log('hit');
+            $('#addDrugModal').modal('show');
+        };
+
         var dayPageSetup = function(){
 
         };

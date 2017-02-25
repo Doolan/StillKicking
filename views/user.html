@@ -6,10 +6,12 @@
     <div class="item">
       <h2 class="heading brand">Still Kicking</h2>
     </div>
-    <!--<a ui-sref="user.history" ui-sref-active="active" class="item">History</a>
-    <a ui-sref="user.habits" ui-sref-active="active" class="item">Habits &amp; Risk</a>
-    <a ui-sref="user.settings" ui-sref-active="active" class="item">Settings</a>-->
+    <a ui-sref="user.day" ui-sref-active="active" class="item">Game Plan</a>
+    <a ui-sref="user.card" ui-sref-active="active" class="item">Emergency Card</a>
+    <!--<a ui-sref="user.settings" ui-sref-active="active" class="item">Settings</a>-->
     <div class="right menu">
+      <!--< ui-sref-active="active" class="item">Game Plan</>&ndash;&gt;-->
+      <a class="item" ng-click="openSetting()">Settings</a>
       <a ui-sref="login" ng-click="logout()" class="item">Logout</a>
     </div>
   </div>
