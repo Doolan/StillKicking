@@ -1,5 +1,7 @@
 
 <centered>
+  <h1 class="ui header centered">Login</h1>
+  <div class="vertical-spacer"></div>
   <div class="ui text container">
     <div class="ui centered fluid card">
       <div class="content">
@@ -16,7 +18,7 @@
         </form>
       </div>
       <div class="ui attached buttons">
-        <button class="ui basic secondary button" ng-click='register()'>Register</button>
+        <a ui-sref="anon.register" class="ui basic secondary button">Register</a>
         <div class="or"></div>
         <button class="ui primary button" ng-click='authenticate()'>Login</button>
 

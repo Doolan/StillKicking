@@ -1,7 +1,3 @@
-
-
-
-
 <centered>
     <h1 class="ui header centered">Register a Patient</h1>
     <div class="vertical-spacer"></div>
@@ -9,10 +5,10 @@
         <div class="ui centered fluid card">
             <div class="content">
                 <form class="ui form" id="registerForm">
-                        <div class="required field">
-                            <label>Name:</label>
-                            <input type="text" placeholder="Name" name="name">
-                        </div>
+                    <div class="required field">
+                        <label>Name:</label>
+                        <input type="text" placeholder="Name" name="name">
+                    </div>
                     <div class="two fields">
                         <div class="required field">
                             <label>Email:</label>
@@ -28,22 +24,26 @@
                         <label>Patient Date of Birth:</label>
                         <input type="text" placeholder="Patient Date of Birth" name="patientDateOfBirth">
                     </div>
-                    <div class="ui selection dropdown left floated">
-                        <input type="hidden" name="patientSex">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">Patient Sex</div>
-                        <div class="menu">
-                            <div class="item" data-value="1">Male</div>
-                            <div class="item" data-value="0">Female</div>
+                    <div class="required field">
+                        <label>Patient Sex:</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="patientSex">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Patient Sex</div>
+                            <div class="menu">
+                                <div class="item" data-value="1">Male</div>
+                                <div class="item" data-value="0">Female</div>
+                            </div>
                         </div>
                     </div>
                     <div class="ui error message"></div>
                 </form>
             </div>
-            <!--<div class="ui attached buttons">-->
-
+            <div class="ui attached buttons">
                 <button class="ui attached primary button" ng-click='registerForm()'>Register</button>
-            <!--</div>-->
+                <div class="or"></div>
+                <a ui-sref="anon.login" class="ui basic secondary button">Login</a>
+            </div>
         </div>
     </div>
 </centered>
