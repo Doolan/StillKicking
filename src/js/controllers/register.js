@@ -1,6 +1,10 @@
 angular.module('StillKickingApp')
     .controller('RegisterCtrl', ['$scope', function ($scope) {
 
+        $scope.registerForm = function(){
+            $('#registerForm').form('validate form');
+        };
+
         var formConfig = function () {
                 $('#registerForm')
                     .form({
