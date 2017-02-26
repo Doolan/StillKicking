@@ -34,7 +34,7 @@ angular.module('StillKickingApp')
                             ]
                         }
                     },
-                    inline: true,
+                    inline: false,
                     onSuccess: function (event, fields) {
                         if (event) {
                             event.preventDefault();
@@ -72,7 +72,8 @@ angular.module('StillKickingApp')
         };
 
 
-        $scope.authenticate = function (fields) {
+        $scope.authenticate = function () {
+            $('#login').form('validate form');
             if(!$('#login').form('is valid'))
                 return;
             stopButtons();

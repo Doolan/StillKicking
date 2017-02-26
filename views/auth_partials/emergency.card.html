@@ -1,29 +1,38 @@
 <div class="ui container">
-    <div class="ui raised segment">
-        <h1 class="left floated ui header">{{userinfo.name}}</h1>
-        <h2 class="right floated ui header">Age: {{userinfo.age}}</h2>
-        <div class="vertical-spacer"></div>
-        <h3 class="ui header">Medical Conditions</h3>
-        <div class="ui segment">
-            <div class="ui basic primary label" ng-repeat="cond in userinfo.medicalConditions">
-                {{cond}}
+
+    <div class="ui relaxed centered stackable grid">
+        <div class="ui row">
+            <div class="seven wide column">
+                <h1 class="left floated ui inverted header">{{userinfo.name}}</h1>
+                <h2 class="right floated ui inverted header">Age: {{userinfo.age}}</h2>
+                <div class="vertical-spacer"></div>
+                <h3 class="ui inverted header">Medical Conditions</h3>
+                <div class="">
+                    <div class="ui basic large primary label" ng-repeat="cond in userinfo.medicalConditions">
+                        {{cond}}
+                    </div>
+                </div>
+                <div class="vertical-spacer"></div>
+                <div class="ui primary button right floated" ng-click="addCondition()  ">Add Condition</div>
+                <div class="vertical-spacer"></div>
+                <h3 class="ui inverted header">Medication History:</h3>
+                <div class="ui segment">
+                    <table class="ui very basic selectable unstackable fixed table">
+                        <tbody>
+                        <tr ng-repeat="drug in drugHistory" ng-click="selectDrug(drug)">
+                            <!--<td>{{drug.name}}</td>-->
+                            <!--<td>{{drug.amt}}</td>-->
+                            <!--<td>{{drug.time | militaryTime}}</td>-->
+                            <td>{{drug.displayName}}</td>
+                            <td>{{drug.dateTime}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <div class = "ui button right floated">Add Condition</div>
-        <div class="vertical-spacer"></div>
-        <h3 class="ui header">Medication History:</h3>
-        <div class="ui segment">
-            <table class="ui very basic selectable unstackable table">
-                <tbody>
-                    <tr ng-repeat="drug in drugHistory" ng-click="selectDrug(drug)">
-                        <td>{{drug.name}}</td>
-                        <td>{{drug.amt}}</td>
-                        <td>{{drug.time | militaryTime}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
+
 </div>
 
 <div class="ui modal" id="drugModal">
@@ -35,5 +44,22 @@
     </div>
     <div class="actions">
         <button class="ui cancel basic primary button">Cancel</button>
+    </div>
+</div>
+
+<div class="ui small modal" id="addConditionModal">
+    <div class="header">New Condition:</div>
+    <div class="content">
+        <form class="ui form" id="addConditionForm">
+            <div class="field">
+                <label>Condition Name:</label>
+                <input type="text" name="name" placeholder="Condition" required>
+            </div>
+            <div class="ui error message"></div>
+        </form>
+    </div>
+    <div class="actions">
+        <div class="ui cancel grey basic button">Cancel</div>
+        <div class="ui approve  primary basic button">Save</div>
     </div>
 </div>

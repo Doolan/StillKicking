@@ -28,6 +28,7 @@
                              class="ui right floated icon orange button">Food <i class="food icon"></i></div>
                         <div class="header">{{evt.time | militaryTime }}</div>
                         <div class="description">
+                            <div class="vertical-half-spacer"></div>
                             <h4 class="ui centered header" ng-repeat="drug in evt.drugs">
                                 {{drug.name}} {{drug.dosage}}mg - {{drug.numPill}} pill(s)
                             </h4>

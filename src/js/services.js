@@ -46,6 +46,82 @@ angular.module('DataManager', [])
             });
         }
     }])
+
+    .service('APIService', ['$http', function ($http) {
+        var self = this;
+
+        self.IMO_CheckSeverity = function (keyword, callback) {
+            var pkt = {
+                "searchTerm": keyword,
+                "numberOfResults": 10,
+                "clientApp": 'TestApp',
+                "clientAppVersion": '0.0.1',
+                "siteId": 'site',
+                "userId": 'user'
+
+            };
+            $http({
+                method: 'POST',
+                url: 'http://184.73.124.73:80/PortalWebService/api/v2/product/problemIT_Professional/search/',
+                data: pkt,
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json",
+                    'Authorization': 'Basic cnJ5YTM3bTB3aXk2YWs='
+                }
+            }).then(function (data) {
+                callback(data.data);
+            }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+            });
+        };
+    }])
+
+    .service('ConditionService', ['$http', function ($http) {
+        var self = this;
+        var conditions = []
+
+        self.getConditions = function (callback) {
+            //ajax call
+
+            $http({
+                method: 'GET',
+                url: host + "patient/conditions",
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json",
+                    'Authorization': getToken('token')
+                }
+            }).then(function (data) {
+                conditions = data.data;
+                callback(conditions);
+            }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+            });
+        };
+
+        self.addCondition = function (condition, callback) {
+            $http({
+                method: 'POST',
+                url: host + "patient/conditions",
+                data: {name: condition},
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json",
+                    'Authorization': getToken('token')
+                }
+            }).then(function (data) {
+                callback(data.data, condition);
+            }, function errorCallback(conditions) {
+                console.log('error occurred: ', response);
+                callback('', condition, response);
+
+            });
+        }
+    }])
+
     .service('DrugService', ['$http', function ($http) {
         var self = this;
         var drugList = [];
@@ -197,6 +273,23 @@ angular.module('DataManager', [])
             });
         };
 
+        self.getPast48 = function (callback) {
+            $http({
+                method: 'GET',
+                url: host + "patient/history",
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json",
+                    'Authorization': getToken('token')
+                }
+            }).then(function (data) {
+                callback(data.data);
+            }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+            });
+        };
+
         self.addToHistory = function (pkg, callback) {
             $http({
                 method: 'POST',
@@ -217,27 +310,77 @@ angular.module('DataManager', [])
 
 
     }])
-    .service('APIService', ['$http', function ($http) {
+
+    .service('ResourceService', ['$http', function ($http) {
         var self = this;
+        self.data = {types: null};
 
-        self.IMO_CheckSeverity = function (keyword, callback) {
-            var pkt = {
-                "searchTerm": keyword,
-                "numberOfResults": 10,
-                "clientApp": 'TestApp',
-                "clientAppVersion": '0.0.1',
-                "siteId": 'site',
-                "userId": 'user'
+        self.getContactTypes = function (callback) {
+            if (self.data.types) {
+                callback(self.data);
+            } else {
+                $http({
+                    method: 'GET',
+                    url: host + "contacts/types",
+                    headers: {
+                        'Content-Type': "application/json",
+                        'Accept': "application/json",
+                        'Authorization': getToken('token')
+                    }
+                }).then(function (data) {
+                    self.data.types = data.data;
+                    callback(self.data.types);
+                }, function errorCallback(response) {
+                    console.log('error occurred: ', response);
+                    callback('', response);
+                });
+            }
+        };
 
-            };
+        self.getContacts = function (callback) {
             $http({
-                method: 'POST',
-                url: 'http://184.73.124.73:80/PortalWebService/api/v2/product/problemIT_Professional/search/',
-                data: pkt,
+                method: 'GET',
+                url: host + "patient/contacts",
                 headers: {
                     'Content-Type': "application/json",
                     'Accept': "application/json",
-                    'Authorization': 'Basic cnJ5YTM3bTB3aXk2YWs='
+                    'Authorization': getToken('token')
+                }
+            }).then(function (data) {
+                callback(data.data);
+            }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+            });
+        };
+
+        self.postContacts = function (pkg, callback) {
+            $http({
+                method: 'POST',
+                url: host + "patient/contact",
+                data: pkg,
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json",
+                    'Authorization': getToken('token')
+                }
+            }).then(function (data) {
+                callback(data.data);
+            }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+            });
+        };
+
+        self.putContacts = function (pkg, callback) {
+            $http({
+                method: 'PUT',
+                url: host + "patient/contact",
+                data: pkg,
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json",
+                    'Authorization': getToken('token')
                 }
             }).then(function (data) {
                 callback(data.data);
@@ -247,56 +390,31 @@ angular.module('DataManager', [])
             });
         };
     }])
-    // self.IMO_CheckNomenclature = function(keyword, callback){
-    //     var pkt = {
-    //         "searchTerm": keyword,
-    //         "numberOfResults": 5,
-    //         "clientApp": 'TestApp',
-    //         "clientAppVersion":  '0.0.1',
-    //         "siteId": 'site',
-    //         "userId": 'user'
-    //
-    //     };
-    //     $http({
-    //         method: 'POST',
-    //         url: 'http://184.73.124.73:80/PortalWebService/api/v2/product/nomenclatureIT/search/',
-    //         data: pkt,
-    //         headers: {
-    //             'Content-Type': "application/json",
-    //             'Accept': "application/json",
-    //             'Authorization':'Basic cnJ5YTM3bTB3aXk2YWs='
-    //         }
-    //     }).then(function (data) {
-    //         console.log(data);
-    //         callback(data);
-    //     }, function errorCallback(response) {
-    //         console.log('error occurred: ', response);
-    //         callback('', response);
-    //     });
-    // };
-    //
-    .service('ResourceService', ['$http', function ($http) {
+
+    .service('UserService', ['$http', function ($http) {
         var self = this;
+        self.data = null;
 
-
-        $http({
-            method: 'POST',
-            url: host + "/api/patient/contact",
-            data: pkt,
-            headers: {
-                'Content-Type': "application/json",
-                'Accept': "application/json",
-                'Authorization': getToken('token')
+        self.getSelf = function (callback) {
+            if (self.data) {
+                callback(self.data);
+            } else {
+                $http({
+                    method: 'GET',
+                    url: host + "patient",
+                    headers: {
+                        'Content-Type': "application/json",
+                        'Accept': "application/json",
+                        'Authorization': getToken('token')
+                    }
+                }).then(function (data) {
+                    self.data = data.data;
+                    callback(self.data);
+                }, function errorCallback(response) {
+                    console.log('error occurred: ', response);
+                    callback('', response);
+                });
             }
-        }).then(function (data) {
-            token = data.data;
-            setToken('token', token);
-            callback(token);
-        }, function errorCallback(response) {
-            console.log('error occurred: ', response);
-            callback('', response);
-            //UPDATE STUFF FOR INCORRECT USER NAME PASSWORD VS SERVER ERROR
-        });
-
-
+        };
     }]);
+
