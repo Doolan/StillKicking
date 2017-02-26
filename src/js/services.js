@@ -247,38 +247,9 @@ angular.module('DataManager', [])
             });
         };
     }])
-    // self.IMO_CheckNomenclature = function(keyword, callback){
-    //     var pkt = {
-    //         "searchTerm": keyword,
-    //         "numberOfResults": 5,
-    //         "clientApp": 'TestApp',
-    //         "clientAppVersion":  '0.0.1',
-    //         "siteId": 'site',
-    //         "userId": 'user'
-    //
-    //     };
-    //     $http({
-    //         method: 'POST',
-    //         url: 'http://184.73.124.73:80/PortalWebService/api/v2/product/nomenclatureIT/search/',
-    //         data: pkt,
-    //         headers: {
-    //             'Content-Type': "application/json",
-    //             'Accept': "application/json",
-    //             'Authorization':'Basic cnJ5YTM3bTB3aXk2YWs='
-    //         }
-    //     }).then(function (data) {
-    //         console.log(data);
-    //         callback(data);
-    //     }, function errorCallback(response) {
-    //         console.log('error occurred: ', response);
-    //         callback('', response);
-    //     });
-    // };
-    //
-    .service('ResourceService', ['$http', function ($http) {
-        var self = this;
 
-
+    .service('ResourceService', ['$http', function($http) {
+        //TODO: FIX
         $http({
             method: 'POST',
             url: host + "/api/patient/contact",
@@ -293,6 +264,48 @@ angular.module('DataManager', [])
             setToken('token', token);
             callback(token);
         }, function errorCallback(response) {
+            console.log('error occurred: ', response);
+            callback('', response);
+            //UPDATE STUFF FOR INCORRECT USER NAME PASSWORD VS SERVER ERROR
+        });
+
+    }])
+
+    .service('ConditionService', ['$http', function($http){
+
+        //ajax call
+        $http({
+            method: 'GET',
+            url: host + "/api/patient/178/conditions",
+            headers: {
+                'Content-Type': "application/json",
+                'Accept': "application/json",
+                'Authorization':getToken('token')
+            }
+        }).then(function (data) {
+            var conditions = data.data;
+            callback(conditions);
+        }, function errorCallback(response) {
+            console.log('error occurred: ', response);
+            callback('', response);
+        });
+
+
+        $http({
+            method: 'POST',
+            url: host + "/api/patient/178/conditions",
+            data: pkt,
+            headers: {
+                'Content-Type': "application/json",
+                'Accept': "application/json",
+                'Authorization':getToken('token'),
+            name: 'name'
+            }
+        }).then(function (data) {
+            token = data.data;
+            setToken('token', token);
+            callback(token);
+        }, function errorCallback(conditions) {
             console.log('error occurred: ', response);
             callback('', response);
             //UPDATE STUFF FOR INCORRECT USER NAME PASSWORD VS SERVER ERROR
