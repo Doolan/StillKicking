@@ -17,4 +17,8 @@ angular.module('StillKickingApp')
       location.reload(true);//Hard reload clears cache and anything left behind
     };
 
+      $scope.$on('$viewContentLoaded', function () {
+          $('.ui.sidebar').sidebar();
+      });
+
   }]);
