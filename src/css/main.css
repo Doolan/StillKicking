@@ -13,21 +13,21 @@
 .vertical-spacer {
     width: 100%;
     display: block;
-    clear: all;
+    clear: both;
     padding-top: 2em;
 }
 
 .vertical-half-spacer {
     width: 100%;
     display: block;
-    clear: all;
+    clear: both;
     padding-top: 1em;
 }
 
 .vertical-quarter-spacer {
     width: 100%;
     display: block;
-    clear: all;
+    clear: both;
     padding-top: 0.25em;
 }
 
@@ -52,10 +52,14 @@
     z-index:9999;
 }
 
-/*body {*/
-    /*background-image: url("/images/mochaGrunge/mochaGrunge.png");*/
-    /*background-repeat: repeat;*/
-/*}*/
+body {
+    background-image: url("/images/bluePoly.png");
+    min-height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
 
 .past{
     background-color:	#C8C8C8;
@@ -63,3 +67,16 @@
 .toggle.right.floated {
     float: right;
 }
+
+.heading.brand {
+    font-family: 'Yesteryear', cursive;
+    font-size: 2.7em;
+    font-weight: 400;
+}
+
+.header.main.brand {
+    font-family: 'Yesteryear', cursive;
+    font-size: 5rem;
+    font-weight: 400;
+}
+

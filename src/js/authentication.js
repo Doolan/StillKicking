@@ -13,14 +13,14 @@ var removeToken = function(token) {
 };
 
 var clearTokens = function() {
-    var tokenList = ['auth-token'];
+    var tokenList = ['auth-token', 'token'];
     tokenList.forEach(function(token) {
         removeToken(token);
     });
 };
 
 var hasAccess = function() {
-    var token = getToken('auth-token');
+    var token = getToken('token');
     if (!token) {
         return false;
     } else {

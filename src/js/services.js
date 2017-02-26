@@ -1,5 +1,5 @@
 'use strict';
-var host = "??/";
+var host = "http://stillkickingme.azurewebsites.net/api/";
 var token = getToken('auth-token');
 
 angular.module('DataManager', [])
@@ -7,43 +7,43 @@ angular.module('DataManager', [])
         var self = this;
 
         self.login = function (username, password, callback) {
-            var pkt = { email: username, password: password };
-            //$http({
-            //    method: 'POST',
-            //    url: host + "login",
-            //    data: pkt,
-            //    headers: {
-            //        'Content-Type': "application/json",
-            //        'Accept': "application/json"
-            //    }
-            //}).then(function (data) {
-            //    console.log('SUCCESS - login', data.data, data.data.access_token);
-            //    setToken('auth-token', 'Bearer ' + data.data.access_token);
-            //    $http.defaults.headers.common.Authorization = 'Bearer ' + data.data.access_token;
-            //    token = 'Bearer ' + data.data.access_token;
-            //    callback(data.data.access_token);
-            //}, function errorCallback(response) {
-            //    console.log('error occured: ', response);
-            //    callback('', response);
-            //    //UPDATE STUFF FOR INCORRECT USER NAME PASSWORD VS SERVER ERROR
-            //});
-                token = 'valid';
-                var role= 'user';
-                setToken('role', role);
-                setToken('token',token);
-            callback(token);
+            var pkt = { username: username, password: password };
+            $http({
+                method: 'POST',
+                url: host + "patient/login",
+                data: pkt,
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json"
+                }
+            }).then(function (data) {
+                token = data.data;
+                setToken('token', token);
+                callback(token);
+            }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+                //UPDATE STUFF FOR INCORRECT USER NAME PASSWORD VS SERVER ERROR
+            });
         };
 
-        self.register = function(fields, callback){
-            var pkt = fields;
-
-
-            //AJAX CALL
-                token = 'valid';
-                var role= 'user';
-                setToken('role', role);
-                setToken('token',token);
-            callback(token);
+        self.register = function(pkt, callback){
+            $http({
+                method: 'POST',
+                url: host + "patient/register",
+                data: pkt,
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json"
+                }
+            }).then(function (data) {
+                token = data.data;
+                setToken('token', token);
+                callback(token);
+               }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+            });
         }
     }])
     .service('DrugService', ['$http', function($http){
@@ -54,6 +54,22 @@ angular.module('DataManager', [])
         self.addDrug = function(fields, callback){
             //var pkt = fields....
             console.log('pretending to register', fields);
+            $http({
+                method: 'POST',
+                url: host + "patient/register",
+                data: pkt,
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json"
+                }
+            }).then(function (data) {
+                token = data.data;
+                setToken('token', token);
+                callback(token);
+            }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+            });
 
             //AJAX REQUEST
 
@@ -97,104 +113,21 @@ angular.module('DataManager', [])
                 return scheduleOfDrugs;
             }else{
                 //ajax call
-                scheduleOfDrugs = [
-                    {
-                        name: 'Breakfast',
-                        startTime: '0800',
-                        expireTime: '0900',
-                        drugs: [
-                            {
-                                name: 'Drug 1',
-                                amt: 1,
-                                taken: true,
-                                optional: false
-                            },
-                            {
-                                name: 'Drug 2',
-                                amt: 2,
-                                taken: true,
-                                optional: false
-                            },
-                            {
-                                name: 'Drug 3',
-                                amt: 1,
-                                taken: true,
-                                optional: false
-                            },
-                            {
-                                name: 'Drug 4',
-                                amt: 1,
-                                taken: false,
-                                optional: false
-                            }
-                        ]
-                    },
-                    {
-                        name: '',
-                        startTime: '1030',
-                        expireTime: '1130',
-                        drugs: [
-                            {
-                                name: 'drug 4',
-                                amt: 1,
-                                taken: true,
-                                optional: false
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Lunch',
-                        startTime: '1200',
-                        expireTime: '1300',
-                        drugs: [
-                            {
-                                name: 'Drug 1',
-                                amt: 1,
-                                taken: true,
-                                optional: false
-                            },
-                            {
-                                name: 'Drug 3',
-                                amt: 1,
-                                taken: false,
-                                optional: false
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Dinner',
-                        startTime: '1700',
-                        expireTime: '1800',
-                        drugs: [
-                            {
-                                name: 'Drug 3',
-                                amt: 1,
-                                taken: false,
-                                optional: false
-                            },
-                            {
-                                name: 'Drug 6',
-                                amt: 1,
-                                taken: false,
-                                optional: false
-                            }
-                        ]
-                    },
-                    {
-                        name: '',
-                        startTime: '2000',
-                        expireTime: '2330',
-                        drugs: [
-                            {
-                                name: 'drug 4',
-                                amt: 1,
-                                taken: false,
-                                optional: false
-                            }
-                        ]
+                $http({
+                    method: 'GET',
+                    url: host + "/Patient/ScheduleDrugs",
+                    headers: {
+                        'Content-Type': "application/json",
+                        'Accept': "application/json",
+                        'Authorization':getToken('token')
                     }
-                ];
-                callback(scheduleOfDrugs);
+                }).then(function (data) {
+                    scheduleOfDrugs = data.data;
+                    callback(scheduleOfDrugs);
+                }, function errorCallback(response) {
+                    console.log('error occurred: ', response);
+                    callback('', response);
+                });
             }
         };
 
@@ -244,6 +177,93 @@ angular.module('DataManager', [])
                 callback2('', response);
             });
         };
+
+
+    }])
+    .service('APIService',['$http', function($http) {
+        var self = this;
+
+        self.IMO_CheckSeverity = function (keyword, callback) {
+            var pkt = {
+                "searchTerm": keyword,
+                "numberOfResults": 10,
+                "clientApp": 'TestApp',
+                "clientAppVersion": '0.0.1',
+                "siteId": 'site',
+                "userId": 'user'
+
+            };
+            $http({
+                method: 'POST',
+                url: 'http://184.73.124.73:80/PortalWebService/api/v2/product/problemIT_Professional/search/',
+                data: pkt,
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json",
+                    'Authorization': 'Basic cnJ5YTM3bTB3aXk2YWs='
+                }
+            }).then(function (data) {
+                callback(data.data);
+            }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+            });
+        };
+    }])
+        // self.IMO_CheckNomenclature = function(keyword, callback){
+        //     var pkt = {
+        //         "searchTerm": keyword,
+        //         "numberOfResults": 5,
+        //         "clientApp": 'TestApp',
+        //         "clientAppVersion":  '0.0.1',
+        //         "siteId": 'site',
+        //         "userId": 'user'
+        //
+        //     };
+        //     $http({
+        //         method: 'POST',
+        //         url: 'http://184.73.124.73:80/PortalWebService/api/v2/product/nomenclatureIT/search/',
+        //         data: pkt,
+        //         headers: {
+        //             'Content-Type': "application/json",
+        //             'Accept': "application/json",
+        //             'Authorization':'Basic cnJ5YTM3bTB3aXk2YWs='
+        //         }
+        //     }).then(function (data) {
+        //         console.log(data);
+        //         callback(data);
+        //     }, function errorCallback(response) {
+        //         console.log('error occurred: ', response);
+        //         callback('', response);
+        //     });
+        // };
+        //
+    .service('ResourceService', ['$http', function($http){
+        var self = this;
+
+
+        $http({
+            method: 'POST',
+            url: host + "/api/patient/contact",
+            data: pkt,
+            headers: {
+                'Content-Type': "application/json",
+                'Accept': "application/json",
+                'Authorization':getToken('token')
+            }
+        }).then(function (data) {
+            token = data.data;
+            setToken('token', token);
+            callback(token);
+        }, function errorCallback(response) {
+            console.log('error occurred: ', response);
+            callback('', response);
+            //UPDATE STUFF FOR INCORRECT USER NAME PASSWORD VS SERVER ERROR
+        });
+
+
+
+
 
 
     }]);

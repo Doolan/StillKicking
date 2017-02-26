@@ -1,27 +1,31 @@
 
-  <centered>
-    <div class="ui text container">
-      <div class="ui centered fluid card">
-        <div class="content">
-          <form class="ui form" id="login">
-            <div class="field">
-              <label>Username</label>
-              <input type="text" placeholder="Username" name="username">
-            </div>
-            <div class="field">
-              <label>Password</label>
-              <input type="password" placeholder="Password" name="password">
-            </div>
-            <div class="ui error message"></div>
-          </form>
-        </div>
-        <div class="ui attached buttons">
-          <button class="ui basic secondary button" ng-click='register()'>Register</button>
-          <div class="or"></div>
-        <button class="ui primary button" ng-click='authenticate()'>Login</button>
+<centered>
+  <!--<img class="ui centered small bordered circular image" src="/images/logo.png">-->
 
-        </div>
+  <div class="ui text container">
+    <h1 class="ui centered inverted header main brand">Still Kicking</h1>
+  <h1 class="ui inverted header"> Login</h1>
+    <div class="ui centered fluid card">
+      <div class="content">
+        <form class="ui form" id="login">
+          <div class="field">
+            <label>Username</label>
+            <input type="text" placeholder="Username" name="username">
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" placeholder="Password" name="password">
+          </div>
+          <div class="ui error message"></div>
+        </form>
+      </div>
+      <div class="ui bottom attached buttons">
+        <a ui-sref="anon.register" class="ui bottom attached basic secondary button">Register</a>
+        <div class="or"></div>
+        <button class="ui bottom attached primary button" ng-click='authenticate()'>Login</button>
+
       </div>
     </div>
-  </centered>
-  <div class="vertical-spacer"></div>
+  </div>
+</centered>
+<div class="vertical-spacer"></div>
