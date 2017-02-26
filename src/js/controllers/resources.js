@@ -52,6 +52,11 @@ angular.module('StillKickingApp')
             $('#addResourceForm .error.message').empty();
         };
 
+        $scope.editResourceOpen = function () {
+            $('#editResourceModal').modal('show');
+
+        };
+
 
 
         /* -----  Scope Functions ------ */
