@@ -216,8 +216,7 @@ angular.module('StillKickingApp')
                             dosage_mg: fields.dosage,
                             eat_with_food: !!fields.food,
                             max_pill: fields.max_pills,
-                            notes: fields.notes,
-                            active: true
+                            notes: fields.notes
                         };
                         DrugService.addDrug(pkt, function (list, err) {
                             if (err) {

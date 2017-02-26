@@ -80,3 +80,6 @@ body {
     font-weight: 400;
 }
 
+.large.label {
+    margin-bottom: .5rem;
+}
