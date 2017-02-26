@@ -54,6 +54,22 @@ angular.module('DataManager', [])
         self.addDrug = function(fields, callback){
             //var pkt = fields....
             console.log('pretending to register', fields);
+            $http({
+                method: 'POST',
+                url: host + "patient/register",
+                data: pkt,
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json"
+                }
+            }).then(function (data) {
+                token = data.data;
+                setToken('token', token);
+                callback(token);
+            }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+            });
 
             //AJAX REQUEST
 

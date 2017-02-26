@@ -6,7 +6,6 @@ angular.module('StillKickingApp')
             $('#registerForm').form('validate form');
         };
 
-
         var formConfig = function () {
                 $('#registerForm')
                     .form({
@@ -66,10 +65,9 @@ angular.module('StillKickingApp')
                             var pkt = {
                                 Email: fields.email,
                                 Name:fields.name,
-                                Phone:'000001',
                                 Password:fields.password,
-                                PatientDateOfBirth:fields.patientDateOfBirth,
-                                PatientSex: fields.patientSex
+                                DOB:fields.patientDateOfBirth,
+                                sex: fields.patientSex
                             };
                             AuthService.register(pkt, function(data, error){
                                 if(!error && data){

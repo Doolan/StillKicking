@@ -1,25 +1,34 @@
 <div class="ui container">
     <!--<div class="ui buttons right floated">-->
     <!--<div class="ui segment">-->
-    <div class="ui right floated primary  icon button" ng-click="addDrugOpen()">
-        <i class="icons">
-            <i class="treatment icon"></i>
-            <i class="corner add icon"></i>
-        </i>
-        Add Drug
-    </div>
-    <div class="ui right floated secondary  icon button" ng-click="scheduleDrugOpen()">
-        <i class="add to calendar icon"></i>
-        Schedule Drug
-    </div>
+
     <!--</div>-->
-    <h1 class="ui header">Game Plan</h1>
+
     <div class="ui relaxed stackable centered grid">
+        <div class="ui row">
+            <div class="seven wide column">
+                <h1 class="ui inverted header">Game Plan</h1>
+            </div>
+            <div class="seven wide column">
+                <div class="ui right floated primary  icon button" ng-click="addDrugOpen()">
+                    <i class="icons">
+                        <i class="treatment icon"></i>
+                        <i class="corner add icon"></i>
+                    </i>
+                    Add Drug
+                </div>
+                <div class="ui right floated secondary  icon button" ng-click="scheduleDrugOpen()">
+                    <i class="add to calendar icon"></i>
+                    Schedule Drug
+                </div>
+            </div>
+        </div>
         <div class="ui row">
             <div class="seven wide column" ng-repeat="evt in drugSchedule">
                 <div class="ui primary rasied centered fluid card">
                     <div class="content">
-                        <div ng-if="evt.food" class="ui right floated icon orange button">Food <i class="food icon"></i></div>
+                        <div ng-if="evt.food" class="ui right floated icon orange button">Food <i class="food icon"></i>
+                        </div>
                         <div class="header">{{evt.time | militaryTime }}</div>
                         <div class="description">
                             <h4 class="ui centered header" ng-repeat="drug in evt.drugs">
@@ -35,56 +44,11 @@
         </div>
     </div>
 
-
-    <!--<div class="ui  right aligned relaxed internally celled grid">-->
-    <!--<div class="row" ng-repeat="item in drugSchedule" ng-class="{past:item.expireTime<currentTime}">-->
-    <!--<div class="four wide column">-->
-    <!--<h3 class="ui header">{{item.startTime | militaryTime}}</h3>-->
-    <!--</div>-->
-    <!--<div class="twelve wide column">-->
-    <!--<table class="ui very basic unstackable center aligned fixed table">-->
-    <!--&lt;!&ndash;<thead>&ndash;&gt;-->
-    <!--&lt;!&ndash;<tr>&ndash;&gt;-->
-    <!--&lt;!&ndash;<th>Amount</th>&ndash;&gt;-->
-    <!--&lt;!&ndash;<th>Name</th>&ndash;&gt;-->
-    <!--&lt;!&ndash;<th>Button</th>&ndash;&gt;-->
-    <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-    <!--&lt;!&ndash;</thead>&ndash;&gt;-->
-    <!--<tbody>-->
-    <!--<tr ng-repeat="drug in item.drugs"-->
-    <!--ng-class="{positive: (drug.taken && item.expireTime>=currentTime)}">-->
-    <!--&lt;!&ndash;<td>{{drug.amt}}</td>&ndash;&gt;-->
-    <!--<td><h4 class="ui centered header">{{drug.amt}} of {{drug.name}}</h4></td>-->
-    <!--<td ng-if="drug.taken"><i class="icon checkmark"></i></td>-->
-    <!--<td ng-if="!drug.taken">-->
-
-    <!--</td>-->
-    <!--</tr>-->
-    <!--</tbody>-->
-    <!--</table>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
     <div class="ui modal" id="addDrugModal">
         <div class="header">Add a Drug</div>
         <div class="content">
             <form class="ui form" id="addDrugForm">
                 <h4 class="ui dividing header">Pill Information:</h4>
-                <div class="two fields">
-                    <div class="field">
-                        <label>NDC #</label>
-                        <div class="ui action input">
-                            <input type="text" name="ndc" placeholder="" required>
-                            <div class="ui button" ng-click="lookupDrug()">Search</div>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>RXCUI # <em>(auto filled)</em></label>
-                        <input disabled type="text" name="rxcui" placeholder="">
-                    </div>
-                </div>
                 <div class="two fields">
                     <div class="field">
                         <label>Drug Name:</label>
@@ -101,23 +65,24 @@
                     </div>
                 </div>
                 <h4 class="ui dividing header">Usage Information:</h4>
-                <div class="three fields">
+                <div class="two fields">
                     <div class="field">
-                        <label>Take:</label>
-                        <input type="number" min="0" name="amount" placeholder="Amount" required>
-                    </div>
-                    <div class="field">
-                        <label>Every:</label>
-                        <div class="ui right labeled input">
-                            <input type="number" min="0" name="interval" placeholder="" required>
-                            <div class="ui label">
-                                hours
-                            </div>
+                        <label>Start Date:</label>
+                    <div class="ui calendar" id="startDate">
+                        <div class="ui input left icon">
+                            <i class="calendar icon"></i>
+                            <input type="text" name="startDate" placeholder="Date">
                         </div>
                     </div>
+                </div>
                     <div class="field">
-                        <label>Time:</label>
-                        <input type="number" min="0" name="time" placeholder="Starting Time">
+                        <label>End Date:</label>
+                    <div class="ui calendar" id="endDate">
+                        <div class="ui input left icon">
+                            <i class="calendar icon"></i>
+                            <input type="text" name="endDate" placeholder="Date">
+                        </div>
+                    </div>
                     </div>
                 </div>
                 <div class="vertical-spacer"></div>
@@ -134,7 +99,7 @@
             </form>
         </div>
         <div class="actions">
-            <button class="ui cancel secondary basic button">Cancel</button>
+            <button class="ui cancel grey basic button">Cancel</button>
             <div class="ui approve  primary basic button">Save</div>
         </div>
     </div>
@@ -205,7 +170,7 @@
             </form>
         </div>
         <div class="actions">
-            <button class="ui cancel secondary basic button">Cancel</button>
+            <button class="ui cancel grey basic button">Cancel</button>
             <div class="ui approve  primary basic button">Save</div>
         </div>
     </div>

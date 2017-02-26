@@ -36,19 +36,19 @@ angular.module('StillKickingApp')
             $('#scheduleDrugForm .error.message').empty();
 
             $scope.drugWeekList = {
-                sunday:false,
+                sunday: false,
                 monday: false,
-                tuesday:false,
-                wednesday:false,
-                thursday:false,
-                friday:false,
-                saturday:false
+                tuesday: false,
+                wednesday: false,
+                thursday: false,
+                friday: false,
+                saturday: false
             }
         };
 
-        $scope.lookupDrug = function(){
+        $scope.lookupDrug = function () {
             var ndc = $('#addDrugForm').form('get value', ndc);
-            if(ndc) {
+            if (ndc) {
                 console.log(ndc);
                 DrugService.searchForDrug(ndc, function (data, err) {
                     console.log(data, "first step");
@@ -60,21 +60,21 @@ angular.module('StillKickingApp')
 
 
         /* ----- Manipulate Data ------ */
-        var createSchedule = function(eventArray){
+        var createSchedule = function (eventArray) {
             var events = {};
 
-            for(var i =0; i<eventArray.length; i++){
+            for (var i = 0; i < eventArray.length; i++) {
                 var drug = eventArray[i];
                 var drugObj = {
-                    name:drug.name,
-                    dosage:drug.dosage,
+                    name: drug.name,
+                    dosage: drug.dosage,
                     numPill: drug.pillsToTake,
-                    severity:drug.severity
+                    severity: drug.severity
                 };
 
                 var pillCount = 0;
                 var hourIncrement = drug.repeatHours * 100;
-                for(var j = parseInt(drug.repeatStart); j < 2400 && pillCount <= drug.maxPills; j+= hourIncrement){
+                for (var j = parseInt(drug.repeatStart); j < 2400 && pillCount <= drug.maxPills; j += hourIncrement) {
                     if (events[j]) {
                         var evt = events[j];
                         evt.food = evt.food || drug.eatWithFood;
@@ -84,7 +84,7 @@ angular.module('StillKickingApp')
                         events[j] = {
                             time: j,
                             food: drug.eatWithFood,
-                            severity:drug.severity,
+                            severity: drug.severity,
                             drugs: [drugObj]
                         }
                     }
@@ -140,24 +140,6 @@ angular.module('StillKickingApp')
                 .form({
                     //Handles the validation on the form
                     fields: {
-                        ndc: {
-                            identifier: 'ndc',
-                            rules: [
-                                {
-                                    type: 'empty',
-                                    prompt: 'Please enter an NDC number'
-                                }
-                            ]
-                        },
-                        rxcui: {
-                            identifier: 'rxcui',
-                            rules: [
-                                {
-                                    type: 'empty',
-                                    prompt: 'Please enter an RXCUI number'
-                                }
-                            ]
-                        },
                         name: {
                             identifier: 'name',
                             rules: [
@@ -176,30 +158,12 @@ angular.module('StillKickingApp')
                                 }
                             ]
                         },
-                        amount: {
-                            identifier: 'amount',
+                        startDate: {
+                            identifier: 'startDate',
                             rules: [
                                 {
                                     type: 'empty',
-                                    prompt: 'Please enter an amount'
-                                }
-                            ]
-                        },
-                        interval: {
-                            identifier: 'interval',
-                            rules: [
-                                {
-                                    type: 'empty',
-                                    prompt: 'Please enter an interval'
-                                }
-                            ]
-                        },
-                        time: {
-                            identifier: 'time',
-                            rules: [
-                                {
-                                    type: 'empty',
-                                    prompt: 'Please enter a time'
+                                    prompt: 'Please enter a start date'
                                 }
                             ]
                         }
@@ -207,11 +171,19 @@ angular.module('StillKickingApp')
                     onSuccess: function (event, fields) {
                         //what happens when the form is filed in
                         //console.log(fields);
-                        DrugService.addDrug(fields, $scope.drugWeekList, function(data, err){
-                            if(err){
+                        console.log(fields);
+                        var pkt = {
+                            pills_to_take: '',
+                            active:'',
+                            dosage_mg:'',
+                            eat_with_food:'',
+                            repeat_hour:'',
+                            repeat_start:''
+                        };
+                        DrugService.addDrug(fields, function (data, err) {
+                            if (err) {
                                 //something broke
                             }
-
                         });
                         $('#addDrugForm').form('reset');
                         $('#addDrugForm .error.message').empty();
@@ -266,8 +238,8 @@ angular.module('StillKickingApp')
                     onSuccess: function (event, fields) {
                         //what happens when the form is filed in
                         //console.log(fields);
-                        DrugService.scheduleDrug(fields, function(data, err){
-                            if(err){
+                        DrugService.scheduleDrug(fields, $scope.drugWeekList, function (data, err) {
+                            if (err) {
                                 //something broke
                             }
                         });
@@ -286,15 +258,15 @@ angular.module('StillKickingApp')
             formConfig();
         };
 
-        var loadDrugList = function(reload){
-            DrugService.getDrugList(reload, function(list){
+        var loadDrugList = function (reload) {
+            DrugService.getDrugList(reload, function (list) {
                 //createSchedule(list);
                 $scope.drugList = list;
             });
         };
 
-        var loadDrugSchedule = function(reload){
-            DrugService.getDrugSchedule(reload, function(list){
+        var loadDrugSchedule = function (reload) {
+            DrugService.getDrugSchedule(reload, function (list) {
                 //$scope.drugSchedule = list;
                 createSchedule(list);
             });
@@ -306,5 +278,11 @@ angular.module('StillKickingApp')
             loadDrugSchedule(true);
             dayPageSetup();
             $('.dropdown').dropdown();
+            $('#startDate').calendar({
+                type: 'date'
+            });
+            $('#endDate').calendar({
+                type: 'date'
+            });
         });
     }]);
