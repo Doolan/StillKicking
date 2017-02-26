@@ -7,6 +7,7 @@
     require('angular-centered');
     require('chart.js');
     require('angular-chart.js');
+    // require('semantic-ui-calendar');
     // require('ng-sortable');
     // require('./js/authentication.js');
     // require('./js/services');
@@ -21,12 +22,12 @@
                 switch (error.code) {
                     case 'NOT_AUTH':
                         // go to the login page
-                        $state.go('login');
+                        $state.go('anon.login');
                         break;
-                    // case 'ALREADY_AUTH':
-                    //     //go to the dash board
-                    //     $state.go('user.history');
-                    //     break;
+                     case 'ALREADY_AUTH':
+                         //go to the dash board
+                         $state.go('user.day');
+                         break;
                     default:
                         // set the error object on the error state and go there
                         $state.get('error').error = error;
@@ -42,18 +43,17 @@
     app.config(function ($stateProvider, $urlRouterProvider) {//, $locationProvider) {
         // $locationProvider.html5Mode(true);
         $urlRouterProvider.when('/user', '/user/history');
-
         $urlRouterProvider.otherwise('/');
         $stateProvider
             .state('user', {
                 url: '/user',
                 abstract: true,
                   resolve: {
-                    //security: ['$q', function ($q) {
-                    //  if (!hasAccess()) {
-                    //    return $q.reject({ code: 'NOT_AUTH' });
-                    //  }
-                    //}]
+                    security: ['$q', function ($q) {
+                      if (!hasAccess()) {
+                        return $q.reject({ code: 'NOT_AUTH' });
+                      }
+                    }]
                   },
                 templateUrl: 'views/user.html',
                 controller: 'UserCtrl',
@@ -63,11 +63,11 @@
                 url: '',
                 abstract: true,
                 resolve: {
-                    //security: ['$q', function ($q) {
-                    //  if (!hasAccess()) {
-                    //    return $q.reject({ code: 'NOT_AUTH' });
-                    //  }
-                    //}]
+                    security: ['$q', function ($q) {
+                      if (hasAccess()) {
+                        return $q.reject({ code: 'ALREADY_AUTH' });
+                      }
+                    }]
                 },
                 templateUrl: 'views/anon.html',
                 controller: 'AnonCtrl',

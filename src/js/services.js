@@ -1,5 +1,5 @@
 'use strict';
-var host = "??/";
+var host = "http://stillkickingme.azurewebsites.net/api/";
 var token = getToken('auth-token');
 
 angular.module('DataManager', [])
@@ -7,26 +7,24 @@ angular.module('DataManager', [])
         var self = this;
 
         self.login = function (username, password, callback) {
-            var pkt = { email: username, password: password };
-            //$http({
-            //    method: 'POST',
-            //    url: host + "login",
-            //    data: pkt,
-            //    headers: {
-            //        'Content-Type': "application/json",
-            //        'Accept': "application/json"
-            //    }
-            //}).then(function (data) {
-            //    console.log('SUCCESS - login', data.data, data.data.access_token);
-            //    setToken('auth-token', 'Bearer ' + data.data.access_token);
-            //    $http.defaults.headers.common.Authorization = 'Bearer ' + data.data.access_token;
-            //    token = 'Bearer ' + data.data.access_token;
-            //    callback(data.data.access_token);
-            //}, function errorCallback(response) {
-            //    console.log('error occured: ', response);
-            //    callback('', response);
-            //    //UPDATE STUFF FOR INCORRECT USER NAME PASSWORD VS SERVER ERROR
-            //});
+            var pkt = { username: username, password: password };
+            $http({
+                method: 'POST',
+                url: host + "patient/login",
+                data: pkt,
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json"
+                }
+            }).then(function (data) {
+                token = 'data';
+                setToken('token', token);
+                callback(token);
+            }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+                //UPDATE STUFF FOR INCORRECT USER NAME PASSWORD VS SERVER ERROR
+            });
                 token = 'valid';
                 var role= 'user';
                 setToken('role', role);
@@ -34,15 +32,23 @@ angular.module('DataManager', [])
             callback(token);
         };
 
-        self.register = function(fields, callback){
-            var pkt = fields;
-
-
-            //AJAX CALL
-                token = 'valid';
-                var role= 'user';
-                setToken('role', role);
-                setToken('token',token);
+        self.register = function(pkt, callback){
+            $http({
+                method: 'POST',
+                url: host + "patient/register",
+                data: pkt,
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json"
+                }
+            }).then(function (data) {
+                token = 'data';
+                setToken('token', token);
+                callback(token);
+               }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+            });
             callback(token);
         }
     }])
