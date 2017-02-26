@@ -238,8 +238,7 @@ angular.module('DataManager', [])
         //     });
         // };
         //
-    .service('ResourceService', ['$http', function($http){
-        var self = this;
+    .service('ResourceService', ['$http', function($http) {
 
 
         $http({
@@ -249,7 +248,7 @@ angular.module('DataManager', [])
             headers: {
                 'Content-Type': "application/json",
                 'Accept': "application/json",
-                'Authorization':getToken('token')
+                'Authorization': getToken('token')
             }
         }).then(function (data) {
             token = data.data;
@@ -261,9 +260,53 @@ angular.module('DataManager', [])
             //UPDATE STUFF FOR INCORRECT USER NAME PASSWORD VS SERVER ERROR
         });
 
+    }])
+
+    .service('ConditionService', ['$http', function($http){
+
+        //ajax call
+        $http({
+            method: 'GET',
+            url: host + "/api/patient/178/conditions",
+            headers: {
+                'Content-Type': "application/json",
+                'Accept': "application/json",
+                'Authorization':getToken('token')
+            }
+        }).then(function (data) {
+            var conditions = data.data;
+            callback(conditions);
+        }, function errorCallback(response) {
+            console.log('error occurred: ', response);
+            callback('', response);
+        });
+
+
+        $http({
+            method: 'POST',
+            url: host + "/api/patient/178/conditions",
+            data: pkt,
+            headers: {
+                'Content-Type': "application/json",
+                'Accept': "application/json",
+                'Authorization':getToken('token'),
+            name: 'name'
+            }
+        }).then(function (data) {
+            token = data.data;
+            setToken('token', token);
+            callback(token);
+        }, function errorCallback(conditions) {
+            console.log('error occurred: ', response);
+            callback('', response);
+            //UPDATE STUFF FOR INCORRECT USER NAME PASSWORD VS SERVER ERROR
+        });
+
 
 
 
 
 
     }]);
+
+
