@@ -137,7 +137,7 @@ angular.module('StillKickingApp')
                 .form({
                     //Handles the validation on the form
                     fields: {
-                        ndc: {
+                        name: {
                             identifier: 'name',
                             rules: [
                                 {
@@ -146,7 +146,7 @@ angular.module('StillKickingApp')
                                 }
                             ]
                         },
-                        rxcui: {
+                        role: {
                             identifier: 'role',
                             rules: [
                                 {
@@ -155,7 +155,7 @@ angular.module('StillKickingApp')
                                 }
                             ]
                         },
-                        name: {
+                        phoneNumber: {
                             identifier: 'phone number',
                             rules: [
                                 {
@@ -168,14 +168,51 @@ angular.module('StillKickingApp')
                     onSuccess: function (event, fields) {
                         //what happens when the form is filed in
                         //console.log(fields);
-                        DrugService.addDrug(fields, $scope.drugWeekList, function (data, err) {
-                            if (err) {
-                                //something broke
-                            }
-
-                        });
-                        $('#addDrugForm').form('reset');
-                        $('#addDrugForm .error.message').empty();
+                        $('#addResourceForm').form('reset');
+                        $('#addResourceForm .error.message').empty();
+                    },
+                    onFailure: function (formErrors, fields) {
+                        return null; // What happens when the form is not filed out
+                    },
+                    keyboardShortcuts: false //disables enter key trigger
+                });
+            $('#editResourceForm')
+                .form({
+                    //Handles the validation on the form
+                    fields: {
+                        name: {
+                            identifier: 'name',
+                            rules: [
+                                {
+                                    type: 'empty',
+                                    prompt: 'Please enter a name'
+                                }
+                            ]
+                        },
+                        role: {
+                            identifier: 'role',
+                            rules: [
+                                {
+                                    type: 'empty',
+                                    prompt: 'Please select a role'
+                                }
+                            ]
+                        },
+                        phoneNumber: {
+                            identifier: 'phone number',
+                            rules: [
+                                {
+                                    type: 'empty',
+                                    prompt: 'Please enter a phone number'
+                                }
+                            ]
+                        }
+                    },
+                    onSuccess: function (event, fields) {
+                        //what happens when the form is filed in
+                        //console.log(fields);
+                        $('#editResourceForm').form('reset');
+                        $('#editResourceForm .error.message').empty();
                     },
                     onFailure: function (formErrors, fields) {
                         return null; // What happens when the form is not filed out
@@ -194,6 +231,9 @@ angular.module('StillKickingApp')
             //    $scope.drugList = list;
             //});
         };
+
+
+
 
         //on scope load
         $scope.$on('$viewContentLoaded', function () {
