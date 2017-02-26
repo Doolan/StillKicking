@@ -46,6 +46,37 @@ angular.module('StillKickingApp')
             }
         ];
 
+        $scope.severity = {
+            mcc:false,
+            cc:false,
+            message:''
+        };
+
+        var findMCC = function(data) {
+            if(!data || !data.SearchTermResponse || !data.SearchTermResponse.items){
+                $scope.severity.message ='Nothing Found.';
+                return;
+            }
+
+            var objects = data.SearchTermResponse.items;
+            var MCC = 0;
+            var CC = 0;
+
+            for(var i=0; i<objects.length; i++){
+                MCC += parseInt(objects[i].MCC_FLAG);
+                CC += parseInt(objects[i].CC_FLAG);
+            }
+            if (MCC > 0){
+                $scope.severity.mcc = true;
+                $scope.severity.message ='You should go to the hospital!';
+            }else if (CC > 0){
+                $scope.severity.cc = true;
+                $scope.severity.message ='You might want to go to the hospital.';
+            }else{
+                $scope.severity.message ='Not too bad. You should not need to go to the hospital.';
+            }
+        };
+
         $scope.addResourceOpen = function () {
             $('#addResourceModal').modal('show');
             $('#addResourceForm').form('reset');
@@ -57,9 +88,16 @@ angular.module('StillKickingApp')
 
         };
 
-        $scope.getSeverity = function(){//TODO: Step 2 - use ng-click to attach this function to the search button
-            var word = $("input").val(); //TODO: get the word STEP !: USE Jquery to get input value from search box
-            APIService.IMO_CheckSeverity(word, function(data){});
+        $scope.getSeverity = function(){
+            var word = $("input").val();
+            $scope.severity = {
+                mcc:false,
+                cc:false,
+                message:''
+            };
+            APIService.IMO_CheckSeverity(word, function(data){
+                findMCC(data);
+            });
         };
 
         // $scope.getNomenclature = function(){//TODO: Step 2 - use ng-click to attach this function to the search button

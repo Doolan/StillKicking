@@ -259,7 +259,7 @@ angular.module('DataManager', [])
                 "siteId": 'site',
                 "userId": 'user'
 
-            };//TODO: Step 5 COPY Search Request PKT HERE, Swap hrt atk for keyword
+            };
             $http({
                 method: 'POST',
                 url: 'http://184.73.124.73:80/PortalWebService/api/v2/product/problemIT_Professional/search/',
@@ -270,39 +270,12 @@ angular.module('DataManager', [])
                     'Authorization':'Basic cnJ5YTM3bTB3aXk2YWs='
                 }
             }).then(function (data) {
-                findMCC(data);
-                console.log(data);
-                callback(data);
+                callback(data.data);
             }, function errorCallback(response) {
                 console.log('error occurred: ', response);
                 callback('', response);
             });
         };
-
-        function findMCC(data) {
-            console.log('I RAN');
-            var objects = data.data.SearchTermResponse.items;
-            var MCC = 0;
-            var CC = 0;
-
-            for(var i=0; i<objects.length; i++){
-                MCC += parseInt(objects[i].MCC_FLAG);
-                console.log(MCC);
-                CC += parseInt(objects[i].CC_FLAG);
-                console.log(CC);
-            };
-
-            if (MCC > 0){
-                console.log('HELP ME IVE FALLEN AND I CANT GET UP');
-                
-            }else if (CC > 0){
-                console.log('CALL DOCTOR');
-            }
-
-        };
-
-
-
         // self.IMO_CheckNomenclature = function(keyword, callback){
         //     var pkt = {
         //         "searchTerm": keyword,
