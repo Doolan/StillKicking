@@ -251,15 +251,23 @@ angular.module('DataManager', [])
         var self = this;
 
         self.IMO_CheckSeverity = function(keyword, callback){
-            var pkt = {};//TODO: Step 5 COPY Search Request PKT HERE, Swap hrt atk for keyword
+            var pkt = {
+                "searchTerm": keyword,
+                "numberOfResults": 5,
+                "clientApp": 'TestApp',
+                "clientAppVersion":  '0.0.1',
+                "siteId": 'site',
+                "userId": 'user'
+
+            };//TODO: Step 5 COPY Search Request PKT HERE, Swap hrt atk for keyword
             $http({
                 method: 'POST',
-                url: 'put url here',//TODO: Step 4 FIGURE OUT WHAT String goes here and where the word goes in it
+                url: 'http://184.73.124.73:80/PortalWebService/api/v2/product/problemIT_Professional/search/',//TODO: Step 4 FIGURE OUT WHAT String goes here and where the word goes in it
                 data: pkt,
                 headers: {
                     'Content-Type': "application/json",
                     'Accept': "application/json",
-                    'Authorization':''//TODO: Step 3 put code here
+                    'Authorization':'Basic cnJ5YTM3bTB3aXk2YWs='
                 }
             }).then(function (data) {
                 console.log(data);
@@ -270,6 +278,36 @@ angular.module('DataManager', [])
             });
         };
 
-        //TODO: Step 6 - Rinse and repeate with the Nomenclature one
+        // self.IMO_CheckNomenclature = function(keyword, callback){
+        //     var pkt = {
+        //         "searchTerm": keyword,
+        //         "numberOfResults": 5,
+        //         "clientApp": 'TestApp',
+        //         "clientAppVersion":  '0.0.1',
+        //         "siteId": 'site',
+        //         "userId": 'user'
+        //
+        //     };
+        //     $http({
+        //         method: 'POST',
+        //         url: 'http://184.73.124.73:80/PortalWebService/api/v2/product/nomenclatureIT/search/',
+        //         data: pkt,
+        //         headers: {
+        //             'Content-Type': "application/json",
+        //             'Accept': "application/json",
+        //             'Authorization':'Basic cnJ5YTM3bTB3aXk2YWs='
+        //         }
+        //     }).then(function (data) {
+        //         console.log(data);
+        //         callback(data);
+        //     }, function errorCallback(response) {
+        //         console.log('error occurred: ', response);
+        //         callback('', response);
+        //     });
+        // };
+
+
+
+
 
     }]);

@@ -58,8 +58,13 @@ angular.module('StillKickingApp')
         };
 
         $scope.getSeverity = function(){//TODO: Step 2 - use ng-click to attach this function to the search button
-            var word = '';//TODO: get the word STEP !: USE Jquery to get input value from search box
+            var word = $("input").val(); //TODO: get the word STEP !: USE Jquery to get input value from search box
             APIService.IMO_CheckSeverity(word, function(data){});
+        };
+
+        $scope.getNomenclature = function(){//TODO: Step 2 - use ng-click to attach this function to the search button
+            var word2 = $("input").val(); //TODO: get the word STEP !: USE Jquery to get input value from search box
+            APIService.IMO_CheckNomenclature(word2, function(data){});
         };
 
 
