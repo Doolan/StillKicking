@@ -1,9 +1,9 @@
-.browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
+/*.browsehappy {*/
+  /*margin: 0.2em 0;*/
+  /*background: #ccc;*/
+  /*color: #000;*/
+  /*padding: 0.2em 0;*/
+/*}*/
 
 
 .brand {
@@ -52,7 +52,7 @@
     z-index:9999;
 }
 
-body {
+.pusher {
     background-image: url("/images/bluePoly.png");
     min-height: 100%;
     background-repeat: no-repeat;
@@ -61,9 +61,9 @@ body {
     background-size: cover;
 }
 
-.past{
-    background-color:	#C8C8C8;
-}
+/*.past{*/
+    /*background-color:	#C8C8C8;*/
+/*}*/
 .toggle.right.floated {
     float: right;
 }
@@ -82,4 +82,31 @@ body {
 
 .large.label {
     margin-bottom: .5rem;
+}
+
+@media only screen and (max-width: 700px) {
+    /*.ui.fixed.menu {*/
+        /*display: none !important;*/
+    /*}*/
+
+    #deskNav{
+        display: none;
+    }
+    #mobileNav {
+        display: block;
+    }
+    #mobileNav .item{
+        display: inline-block;
+    }
+    /*.masthead.segment {*/
+        /*min-height: 350px;*/
+    /*}*/
+    /*.masthead h1.ui.header {*/
+        /*font-size: 2em;*/
+        /*margin-top: 1.5em;*/
+    /*}*/
+    /*.masthead h2 {*/
+        /*margin-top: 0.5em;*/
+        /*font-size: 1.5em;*/
+    /*}*/
 }

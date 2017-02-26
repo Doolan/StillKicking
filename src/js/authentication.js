@@ -28,3 +28,6 @@ var hasAccess = function() {
     }
 };
 
+var toggleSideMenu = function() {
+    $('.ui.inverted.sidebar').sidebar('toggle');
+};
