@@ -25,11 +25,6 @@ angular.module('DataManager', [])
                 callback('', response);
                 //UPDATE STUFF FOR INCORRECT USER NAME PASSWORD VS SERVER ERROR
             });
-                token = 'valid';
-                var role= 'user';
-                setToken('role', role);
-                setToken('token',token);
-            callback(token);
         };
 
         self.register = function(pkt, callback){
@@ -49,7 +44,6 @@ angular.module('DataManager', [])
                 console.log('error occurred: ', response);
                 callback('', response);
             });
-            callback(token);
         }
     }])
     .service('DrugService', ['$http', function($http){
@@ -251,5 +245,31 @@ angular.module('DataManager', [])
             });
         };
 
+
+    }])
+    .service('APIService',['$http', function($http){
+        var self = this;
+
+        self.IMO_CheckSeverity = function(keyword, callback){
+            var pkt = {};//TODO: Step 5 COPY Search Request PKT HERE, Swap hrt atk for keyword
+            $http({
+                method: 'POST',
+                url: 'put url here',//TODO: Step 4 FIGURE OUT WHAT String goes here and where the word goes in it
+                data: pkt,
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json",
+                    'Authorization':''//TODO: Step 3 put code here
+                }
+            }).then(function (data) {
+                console.log(data);
+                callback(data);
+            }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+            });
+        };
+
+        //TODO: Step 6 - Rinse and repeate with the Nomenclature one
 
     }]);

@@ -8,7 +8,7 @@
  * Controller of the StillKickingApp
  */
 angular.module('StillKickingApp')
-    .controller('ResourcesCtrl', ['$scope', 'AuthService', 'DrugService', function ($scope, AuthService, DrugService) {
+    .controller('ResourcesCtrl', ['$scope', 'APIService', 'DrugService', function ($scope, APIService, DrugService) {
 
         /* -----  Scope Variables ------ */
 
@@ -57,6 +57,10 @@ angular.module('StillKickingApp')
 
         };
 
+        $scope.getSeverity = function(){//TODO: Step 2 - use ng-click to attach this function to the search button
+            var word = '';//TODO: get the word STEP !: USE Jquery to get input value from search box
+            APIService.IMO_CheckSeverity(word, function(data){});
+        };
 
 
         /* -----  Scope Functions ------ */
