@@ -57,7 +57,7 @@ npm install -g gulp
 
 [**Database and Backend information can be found here:**](https://github.com/cbudo/StillKickingMeBack)
 
-**Contributor Guide**
+[**Contributor Guide**](https://github.com/Doolan/StillKicking/blob/master/CONTRIBUTING.md)
 
 [**LICENSE**](https://github.com/Doolan/StillKicking/blob/master/LICENSE)
 
