@@ -17,7 +17,7 @@ angular.module('DataManager', [])
                     'Accept': "application/json"
                 }
             }).then(function (data) {
-                token = 'data';
+                token = data.data;
                 setToken('token', token);
                 callback(token);
             }, function errorCallback(response) {
@@ -25,11 +25,6 @@ angular.module('DataManager', [])
                 callback('', response);
                 //UPDATE STUFF FOR INCORRECT USER NAME PASSWORD VS SERVER ERROR
             });
-                token = 'valid';
-                var role= 'user';
-                setToken('role', role);
-                setToken('token',token);
-            callback(token);
         };
 
         self.register = function(pkt, callback){
@@ -42,14 +37,13 @@ angular.module('DataManager', [])
                     'Accept': "application/json"
                 }
             }).then(function (data) {
-                token = 'data';
+                token = data.data;
                 setToken('token', token);
                 callback(token);
                }, function errorCallback(response) {
                 console.log('error occurred: ', response);
                 callback('', response);
             });
-            callback(token);
         }
     }])
     .service('DrugService', ['$http', function($http){
@@ -103,104 +97,21 @@ angular.module('DataManager', [])
                 return scheduleOfDrugs;
             }else{
                 //ajax call
-                scheduleOfDrugs = [
-                    {
-                        name: 'Breakfast',
-                        startTime: '0800',
-                        expireTime: '0900',
-                        drugs: [
-                            {
-                                name: 'Drug 1',
-                                amt: 1,
-                                taken: true,
-                                optional: false
-                            },
-                            {
-                                name: 'Drug 2',
-                                amt: 2,
-                                taken: true,
-                                optional: false
-                            },
-                            {
-                                name: 'Drug 3',
-                                amt: 1,
-                                taken: true,
-                                optional: false
-                            },
-                            {
-                                name: 'Drug 4',
-                                amt: 1,
-                                taken: false,
-                                optional: false
-                            }
-                        ]
-                    },
-                    {
-                        name: '',
-                        startTime: '1030',
-                        expireTime: '1130',
-                        drugs: [
-                            {
-                                name: 'drug 4',
-                                amt: 1,
-                                taken: true,
-                                optional: false
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Lunch',
-                        startTime: '1200',
-                        expireTime: '1300',
-                        drugs: [
-                            {
-                                name: 'Drug 1',
-                                amt: 1,
-                                taken: true,
-                                optional: false
-                            },
-                            {
-                                name: 'Drug 3',
-                                amt: 1,
-                                taken: false,
-                                optional: false
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Dinner',
-                        startTime: '1700',
-                        expireTime: '1800',
-                        drugs: [
-                            {
-                                name: 'Drug 3',
-                                amt: 1,
-                                taken: false,
-                                optional: false
-                            },
-                            {
-                                name: 'Drug 6',
-                                amt: 1,
-                                taken: false,
-                                optional: false
-                            }
-                        ]
-                    },
-                    {
-                        name: '',
-                        startTime: '2000',
-                        expireTime: '2330',
-                        drugs: [
-                            {
-                                name: 'drug 4',
-                                amt: 1,
-                                taken: false,
-                                optional: false
-                            }
-                        ]
+                $http({
+                    method: 'GET',
+                    url: host + "/Patient/ScheduleDrugs",
+                    headers: {
+                        'Content-Type': "application/json",
+                        'Accept': "application/json",
+                        'Authorization':getToken('token')
                     }
-                ];
-                callback(scheduleOfDrugs);
+                }).then(function (data) {
+                    scheduleOfDrugs = data.data;
+                    callback(scheduleOfDrugs);
+                }, function errorCallback(response) {
+                    console.log('error occurred: ', response);
+                    callback('', response);
+                });
             }
         };
 

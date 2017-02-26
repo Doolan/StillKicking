@@ -13,21 +13,21 @@
 .vertical-spacer {
     width: 100%;
     display: block;
-    clear: all;
+    clear: both;
     padding-top: 2em;
 }
 
 .vertical-half-spacer {
     width: 100%;
     display: block;
-    clear: all;
+    clear: both;
     padding-top: 1em;
 }
 
 .vertical-quarter-spacer {
     width: 100%;
     display: block;
-    clear: all;
+    clear: both;
     padding-top: 0.25em;
 }
 
@@ -54,7 +54,11 @@
 
 body {
     background-image: url("/images/bluePoly.png");
-    background-repeat: repeat;
+    min-height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
 }
 
 .past{

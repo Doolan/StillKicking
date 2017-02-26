@@ -58,6 +58,43 @@ angular.module('StillKickingApp')
             }
         };
 
+
+        /* ----- Manipulate Data ------ */
+        var createSchedule = function(eventArray){
+            var events = {};
+
+            for(var i =0; i<eventArray.length; i++){
+                var drug = eventArray[i];
+                var drugObj = {
+                    name:drug.name,
+                    dosage:drug.dosage,
+                    numPill: drug.pillsToTake,
+                    severity:drug.severity
+                };
+
+                var pillCount = 0;
+                var hourIncrement = drug.repeatHours * 100;
+                for(var j = parseInt(drug.repeatStart); j < 2400 && pillCount <= drug.maxPills; j+= hourIncrement){
+                    if (events[j]) {
+                        var evt = events[j];
+                        evt.food = evt.food || drug.eatWithFood;
+                        evt.severity = Math.max(drug.severity, evt.severity);
+                        evt.drugs.push(drugObj);
+                    } else {
+                        events[j] = {
+                            time: j,
+                            food: drug.eatWithFood,
+                            severity:drug.severity,
+                            drugs: [drugObj]
+                        }
+                    }
+                    pillCount += drug.pillsToTake;
+                }
+            }
+            console.log(events, eventArray, "create -events");
+            $scope.drugSchedule = events;
+        };
+
         /* -----  Set Up & Config Function ------ */
 
         var modalConfigs = function () {
@@ -251,13 +288,15 @@ angular.module('StillKickingApp')
 
         var loadDrugList = function(reload){
             DrugService.getDrugList(reload, function(list){
+                //createSchedule(list);
                 $scope.drugList = list;
             });
         };
 
         var loadDrugSchedule = function(reload){
             DrugService.getDrugSchedule(reload, function(list){
-                $scope.drugSchedule = list;
+                //$scope.drugSchedule = list;
+                createSchedule(list);
             });
         };
 
