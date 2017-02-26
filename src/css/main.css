@@ -67,3 +67,15 @@ body {
 .toggle.right.floated {
     float: right;
 }
+
+.heading.brand {
+    font-family: 'Yesteryear', cursive;
+    font-size: 2.7em;
+    font-weight: 400;
+}
+
+.header.main.brand {
+    font-family: 'Yesteryear', cursive;
+    font-size: 5rem;
+    font-weight: 400;
+}

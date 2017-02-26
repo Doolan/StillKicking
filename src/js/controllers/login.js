@@ -83,7 +83,7 @@ angular.module('StillKickingApp')
                         '<ui class="list"><li>Invalid Username or Password</li></ui>').show();
                     freeButtons();
                 } else {
-                    $state.go('user.history');
+                    $state.go('user.day');
                 }
             });
         }
