@@ -87,23 +87,26 @@
                 controller:'eCardCtrl',
                 controllerAs: 'cardCtrl'
             })
+            .state('user.resources', {
+                url:'/resources',
+                abstract:false,
+                templateUrl: '../views/auth_partials/resources.html',
+                controller:'ResourcesCtrl',
+                controllerAs: 'resourcesCtrl'
+            })
             .state('anon.login', {
                 url: '/',
                 abstract: false,
                 templateUrl: '../views/non_auth_partials/login.html',
                 controller: 'LoginCtrl',
-                controllerAs: 'login',
-                resolve: {
-                }
+                controllerAs: 'login'
             })
             .state('anon.register', {
                 url: '/register',
                 abstract: false,
                 templateUrl: '../views/non_auth_partials/register.html',
                 controller: 'RegisterCtrl',
-                controllerAs: 'register',
-                resolve: {
-                }
+                controllerAs: 'register'
             });
     });
 

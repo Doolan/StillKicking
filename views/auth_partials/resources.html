@@ -1,0 +1,115 @@
+<div class="ui container">
+    <div class="ui stackable mobile reversed two column relaxed grid">
+        <div class="column">
+            <h1 class="ui centered header">Contacts
+                <button class="ui right floated basic primary button" ng-click="addResourceOpen()">Add</button>
+            </h1>
+            <div class="ui fluid card" ng-repeat="cont in contacts">
+                <div class="content">
+                    <div class="header">{{cont.name}}
+                        <button class="ui right floated basic small secondary button" ng-click="editResourceOpen()">
+                            Edit
+                        </button>
+                    </div>
+                    <div class="meta">{{cont.type}}</div>
+                    <div class="description">
+                        <p><strong>{{cont.phone}}</strong></p>
+                        <p>{{cont.notes}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <h1 class="ui centered header">Helpful Resources</h1>
+            <!--<div class="ui  field">-->
+            <p>IMO - Severity Search</p>
+            <div class="ui fluid action input">
+                <input type="text" placeholder="Search...">
+                <button class="ui button" ng-click="getSeverity()">Search</button>
+            </div>
+            <div class="vertical-spacer"></div>
+            <div class="ui message" ng-class="{negative: severity.mcc, warning: severity.cc}" ng-show="severity.message">
+                {{severity.message}}
+            </div>
+            <div class="vertical-spacer"></div>
+            <p>IMO - Nomenclature Search</p>
+            <div class="ui fluid action input">
+                <input disabled type="text" placeholder="Coming Soon...">
+                <button disabled class="ui button">Search</button>
+            </div>
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+
+<div class="ui modal" id="addResourceModal">
+    <div class="header">Add a Resource</div>
+    <div class="content">
+        <form class="ui form" id="addResourceForm">
+            <h4 class="ui dividing header">This Resource:</h4>
+            <div class="field">
+                <label>Name:</label>
+                <div class="ui action input">
+                    <input type="text" name="name" placeholder="Name" required>
+                </div>
+            </div>
+            <select class="ui fluid dropdown">
+                <option class="item" value="">Select a Role</option>
+                <option class="item" ng-repeat="role in roles" value="roles.id">{{role.title}}</option>
+            </select>
+            <div class="field">
+                <div class="vertical-spacer"></div>
+                <label>Phone Number:</label>
+                <div class="ui action input">
+                    <input type="text" name="phone number" placeholder="1(800)-555-5555" required>
+                </div>
+            </div>
+            <div class="vertical-spacer"></div>
+            <div class="ui field">
+                <label>Notes:</label>
+                <textarea rows="3" name="notes" placeholder="Optional"></textarea>
+            </div>
+            <div class="ui error message"></div>
+        </form>
+    </div>
+    <div class="actions">
+        <button class="ui cancel secondary basic button">Cancel</button>
+        <div class="ui approve  primary basic button">Save</div>
+    </div>
+</div>
+
+<div class="ui modal" id="editResourceModal">
+    <div class="header">Edit a Resource</div>
+    <div class="content">
+        <form class="ui form" id="editResourceForm">
+            <h4 class="ui dividing header">This Resource:</h4>
+            <div class="field">
+                <label>Name:</label>
+                <div class="ui action input">
+                    <input type="text" name="name" placeholder="Name" required>
+                </div>
+            </div>
+            <select class="ui fluid dropdown">
+                <option class="item" value="">Select a Role</option>
+                <option class="item" ng-repeat="role in roles" value="roles.id">{{role.title}}</option>
+            </select>
+            <div class="field">
+                <div class="vertical-spacer"></div>
+                <label>Phone Number:</label>
+                <div class="ui action input">
+                    <input type="text" name="phone number" placeholder="1(800)-555-5555" required>
+                </div>
+            </div>
+            <div class="vertical-spacer"></div>
+            <div class="ui field">
+                <label>Notes:</label>
+                <textarea rows="3" name="notes" placeholder="Optional"></textarea>
+            </div>
+            <div class="ui error message"></div>
+        </form>
+    </div>
+    <div class="actions">
+        <button class="ui cancel secondary basic button">Cancel</button>
+        <div class="ui approve  primary basic button">Save</div>
+    </div>
+</div>

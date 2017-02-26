@@ -179,4 +179,91 @@ angular.module('DataManager', [])
         };
 
 
+    }])
+    .service('APIService',['$http', function($http) {
+        var self = this;
+
+        self.IMO_CheckSeverity = function (keyword, callback) {
+            var pkt = {
+                "searchTerm": keyword,
+                "numberOfResults": 10,
+                "clientApp": 'TestApp',
+                "clientAppVersion": '0.0.1',
+                "siteId": 'site',
+                "userId": 'user'
+
+            };
+            $http({
+                method: 'POST',
+                url: 'http://184.73.124.73:80/PortalWebService/api/v2/product/problemIT_Professional/search/',
+                data: pkt,
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json",
+                    'Authorization': 'Basic cnJ5YTM3bTB3aXk2YWs='
+                }
+            }).then(function (data) {
+                callback(data.data);
+            }, function errorCallback(response) {
+                console.log('error occurred: ', response);
+                callback('', response);
+            });
+        };
+    }])
+        // self.IMO_CheckNomenclature = function(keyword, callback){
+        //     var pkt = {
+        //         "searchTerm": keyword,
+        //         "numberOfResults": 5,
+        //         "clientApp": 'TestApp',
+        //         "clientAppVersion":  '0.0.1',
+        //         "siteId": 'site',
+        //         "userId": 'user'
+        //
+        //     };
+        //     $http({
+        //         method: 'POST',
+        //         url: 'http://184.73.124.73:80/PortalWebService/api/v2/product/nomenclatureIT/search/',
+        //         data: pkt,
+        //         headers: {
+        //             'Content-Type': "application/json",
+        //             'Accept': "application/json",
+        //             'Authorization':'Basic cnJ5YTM3bTB3aXk2YWs='
+        //         }
+        //     }).then(function (data) {
+        //         console.log(data);
+        //         callback(data);
+        //     }, function errorCallback(response) {
+        //         console.log('error occurred: ', response);
+        //         callback('', response);
+        //     });
+        // };
+        //
+    .service('ResourceService', ['$http', function($http){
+        var self = this;
+
+
+        $http({
+            method: 'POST',
+            url: host + "/api/patient/contact",
+            data: pkt,
+            headers: {
+                'Content-Type': "application/json",
+                'Accept': "application/json",
+                'Authorization':getToken('token')
+            }
+        }).then(function (data) {
+            token = data.data;
+            setToken('token', token);
+            callback(token);
+        }, function errorCallback(response) {
+            console.log('error occurred: ', response);
+            callback('', response);
+            //UPDATE STUFF FOR INCORRECT USER NAME PASSWORD VS SERVER ERROR
+        });
+
+
+
+
+
+
     }]);
