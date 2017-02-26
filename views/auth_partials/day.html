@@ -1,9 +1,4 @@
 <div class="ui container">
-    <!--<div class="ui buttons right floated">-->
-    <!--<div class="ui segment">-->
-
-    <!--</div>-->
-
     <div class="ui relaxed stackable centered grid">
         <div class="ui row">
             <div class="seven wide column">
@@ -25,10 +20,12 @@
         </div>
         <div class="ui row">
             <div class="seven wide column" ng-repeat="evt in drugSchedule">
-                <div class="ui primary rasied centered fluid card">
+                <div class="ui primary rasied centered fluid card" ng-class="{disabled:evt.completed}">
                     <div class="content">
-                        <div ng-if="evt.food" class="ui right floated icon orange button">Food <i class="food icon"></i>
-                        </div>
+                        <div ng-if="evt.completed" class="ui right floated icon secondary basic button">Taken <i
+                                class="checkmark icon"></i></div>
+                        <div ng-if="evt.food" ng-class="{basic:evt.completed}"
+                             class="ui right floated icon orange button">Food <i class="food icon"></i></div>
                         <div class="header">{{evt.time | militaryTime }}</div>
                         <div class="description">
                             <h4 class="ui centered header" ng-repeat="drug in evt.drugs">
@@ -37,7 +34,9 @@
                         </div>
                     </div>
                     <div class="vertical-spacer"></div>
-                    <div class="ui bottom attached light primary button">Complete</div>
+                    <div class="ui bottom attached light primary button"
+                         ng-click="completePill(evt)" ng-class="{basic:evt.completed, disabled:evt.completed}">Complete
+                    </div>
                 </div>
                 <div class="vertical-spacer"></div>
             </div>
@@ -64,31 +63,19 @@
                         </div>
                     </div>
                 </div>
-                <h4 class="ui dividing header">Usage Information:</h4>
+                <div class="vertical-spacer"></div>
                 <div class="two fields">
                     <div class="field">
-                        <label>Start Date:</label>
-                    <div class="ui calendar" id="startDate">
-                        <div class="ui input left icon">
-                            <i class="calendar icon"></i>
-                            <input type="text" name="startDate" placeholder="Date">
-                        </div>
+                        <label>Max Number of Pills Per Day:</label>
+                        <input type="number" min="1" name="max_pills" placeholder="" required>
                     </div>
-                </div>
                     <div class="field">
-                        <label>End Date:</label>
-                    <div class="ui calendar" id="endDate">
-                        <div class="ui input left icon">
-                            <i class="calendar icon"></i>
-                            <input type="text" name="endDate" placeholder="Date">
+                        <label>&nbsp;</label>
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="food">
+                            <label class="">With Food</label>
                         </div>
                     </div>
-                    </div>
-                </div>
-                <div class="vertical-spacer"></div>
-                <div class="ui toggle checkbox right floated">
-                    <input type="checkbox" name="food">
-                    <label class="">With Food</label>
                 </div>
                 <div class="vertical-spacer"></div>
                 <div class="ui field">
@@ -109,17 +96,9 @@
         <div class="content">
             <form class="ui form" id="scheduleDrugForm">
                 <h4 class="ui dividing header">Choose a Drug:</h4>
-                <select class="ui fluid dropdown">
-                    <option class="item" ng-repeat="drug in drugList" value="drug.name">{{drug.name}}</option>
+                <select name="drug" class="ui fluid dropdown">
+                    <option class="item" ng-repeat="drug in drugList" ng-value="drug.Id">{{drug.displayName}}</option>
                 </select>
-                <!--<div class="ui fluid selection dropdown">-->
-                <!--<input type="hidden" name="Choose Drug" required>-->
-                <!--<i class="dropdown icon"></i>-->
-                <!--<div class="default text">Choose a Drug</div>-->
-                <!--<div class="menu">-->
-                <!--<div class="item" ng-repeat="drug in drugList" data-value="drug.name">{{drug.name}}</div>-->
-                <!--</div>-->
-                <!--</div>-->
                 <h4 class="ui dividing header">Choose Recurrence:</h4>
                 <div class="seven secondary ui buttons">
                     <div class="ui button" ng-class="{basic: !drugWeekList.sunday}"
@@ -145,14 +124,38 @@
                     </div>
                 </div>
                 <h4 class="ui dividing header">Usage Information:</h4>
-                <div class="two fields">
+                <div class="three fields">
                     <div class="field">
-                        <label>Take:</label>
+                        <label>Amount to Take:</label>
                         <input type="number" min="0" name="amount" placeholder="Amount" required autofocus>
                     </div>
                     <div class="field">
-                        <label>Time:</label>
+                        <label>Start Time:</label>
                         <input type="number" min="0" name="time" placeholder="Starting Time">
+                    </div>
+                    <div class="field">
+                        <label>Repeat Interval:</label>
+                        <input type="number" min="0" name="repeat" placeholder="interval in hours" required>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Start Date:</label>
+                        <div class="ui calendar" id="startDate">
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <input type="text" name="startDate" placeholder="Date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>End Date:</label>
+                        <div class="ui calendar" id="endDate">
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <input type="text" name="endDate" placeholder="Date">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--<button class="ui labled icon button right floated">-->

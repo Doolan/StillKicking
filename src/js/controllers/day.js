@@ -46,6 +46,26 @@ angular.module('StillKickingApp')
             }
         };
 
+
+        $scope.completePill = function (evt) {
+
+            for(var i in evt.drugs) {
+                var drug = evt.drugs[i];
+                var pkg = {
+                    drug_idfk: drug.id,
+                    timecode: evt.time,
+                    amount_taken: drug.numPill,
+                    on_time: true
+                };
+                DrugService.addToHistory(pkg, function(data){
+                   //do nothing
+                });
+            };
+
+            evt.completed = true;
+
+        };
+
         $scope.lookupDrug = function () {
             var ndc = $('#addDrugForm').form('get value', ndc);
             if (ndc) {
@@ -66,11 +86,15 @@ angular.module('StillKickingApp')
             for (var i = 0; i < eventArray.length; i++) {
                 var drug = eventArray[i];
                 var drugObj = {
+                    id: drug.drug_id,
                     name: drug.name,
                     dosage: drug.dosage,
                     numPill: drug.pillsToTake,
                     severity: drug.severity
                 };
+
+                if (!drug.repeatHours)
+                    drug.repeatHours = 24;
 
                 var pillCount = 0;
                 var hourIncrement = drug.repeatHours * 100;
@@ -80,6 +104,7 @@ angular.module('StillKickingApp')
                         evt.food = evt.food || drug.eatWithFood;
                         evt.severity = Math.max(drug.severity, evt.severity);
                         evt.drugs.push(drugObj);
+                        evt.completed = false;
                     } else {
                         events[j] = {
                             time: j,
@@ -91,8 +116,16 @@ angular.module('StillKickingApp')
                     pillCount += drug.pillsToTake;
                 }
             }
-            console.log(events, eventArray, "create -events");
             $scope.drugSchedule = events;
+            loadHistory();
+        };
+
+        var markCompleted = function(eventArray){
+            for(var i in eventArray) {
+                var evt = eventArray[i];
+                if($scope.drugSchedule[evt.timecode])
+                    $scope.drugSchedule[evt.timecode].completed = true;
+            }
         };
 
         /* -----  Set Up & Config Function ------ */
@@ -149,6 +182,15 @@ angular.module('StillKickingApp')
                                 }
                             ]
                         },
+                        max_pills: {
+                            identifier: 'max_pills',
+                            rules: [
+                                {
+                                    type: 'empty',
+                                    prompt: 'Please enter a dosage'
+                                }
+                            ]
+                        },
                         dosage: {
                             identifier: 'dosage',
                             rules: [
@@ -169,20 +211,23 @@ angular.module('StillKickingApp')
                         }
                     },
                     onSuccess: function (event, fields) {
-                        //what happens when the form is filed in
-                        //console.log(fields);
-                        console.log(fields);
                         var pkt = {
-                            pills_to_take: '',
-                            active:'',
-                            dosage_mg:'',
-                            eat_with_food:'',
-                            repeat_hour:'',
-                            repeat_start:''
+                            name: fields.name,
+                            dosage_mg: fields.dosage,
+                            eat_with_food: !!fields.food,
+                            max_pill: fields.max_pills,
+                            notes: fields.notes,
+                            active: true
                         };
-                        DrugService.addDrug(fields, function (data, err) {
+                        DrugService.addDrug(pkt, function (list, err) {
                             if (err) {
                                 //something broke
+                            }
+                            if (list) {
+                                list.forEach(function (item) {
+                                    item.displayName = item.Name + " - " + item.dosage_mg + " mg";
+                                });
+                                $scope.drugList = list;
                             }
                         });
                         $('#addDrugForm').form('reset');
@@ -198,8 +243,8 @@ angular.module('StillKickingApp')
                 .form({
                     //Handles the validation on the form
                     fields: {
-                        chooseDrug: {
-                            identifier: 'chooseDrug',
+                        drug: {
+                            identifier: 'drug',
                             rules: [
                                 {
                                     type: 'empty',
@@ -207,17 +252,17 @@ angular.module('StillKickingApp')
                                 }
                             ]
                         },
-                        chooseRecurrence: {
-                            identifier: 'chooseRecurrence',
+                        amount: {
+                            identifier: 'amount',
                             rules: [
                                 {
                                     type: 'empty',
-                                    prompt: 'Please choose a recurrence'
+                                    prompt: 'Please enter an amount'
                                 }
                             ]
                         },
-                        amount: {
-                            identifier: 'amount',
+                        repeat: {
+                            identifier: 'repeat',
                             rules: [
                                 {
                                     type: 'empty',
@@ -237,10 +282,39 @@ angular.module('StillKickingApp')
                     },
                     onSuccess: function (event, fields) {
                         //what happens when the form is filed in
-                        //console.log(fields);
-                        DrugService.scheduleDrug(fields, $scope.drugWeekList, function (data, err) {
+                        var weekly = '';
+                        if ($scope.drugWeekList.monday)
+                            weekly += 'M';
+                        if ($scope.drugWeekList.tuesday)
+                            weekly += 'T';
+                        if ($scope.drugWeekList.wednesday)
+                            weekly += 'W';
+                        if ($scope.drugWeekList.thursday)
+                            weekly += 'R';
+                        if ($scope.drugWeekList.friday)
+                            weekly += 'F';
+                        if ($scope.drugWeekList.saturday)
+                            weekly += 'S';
+                        if ($scope.drugWeekList.sunday)
+                            weekly += 'U';
+
+                        var pkg = {
+                            med_id: fields.drug,
+                            amount: fields.amount,
+                            time_to_take: fields.time,
+                            week_repeat_code: weekly,
+                            start_date: fields.startDate,
+                            end_date: fields.endDate,
+                            severity: 1,
+                            repeat_interval: fields.repeat,
+                            active: true
+
+                        };
+                        DrugService.scheduleDrug(pkg, function (data, err) {
                             if (err) {
                                 //something broke
+                            } else if (data) {
+                                createSchedule(data);
                             }
                         });
                         $('#scheduleDrugForm').form('reset');
@@ -261,6 +335,9 @@ angular.module('StillKickingApp')
         var loadDrugList = function (reload) {
             DrugService.getDrugList(reload, function (list) {
                 //createSchedule(list);
+                list.forEach(function (item) {
+                    item.displayName = item.Name + " - " + item.dosage_mg + " mg";
+                });
                 $scope.drugList = list;
             });
         };
@@ -269,6 +346,14 @@ angular.module('StillKickingApp')
             DrugService.getDrugSchedule(reload, function (list) {
                 //$scope.drugSchedule = list;
                 createSchedule(list);
+            });
+        };
+
+
+
+        var loadHistory = function(){
+            DrugService.getTodaysHistory(function(data){
+                markCompleted(data);
             });
         };
 
